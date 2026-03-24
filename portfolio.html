@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cahyo — Web & Software Developer</title>
+  <meta name="description" content="Cahyo — Freelance Web Developer. I design and build clean, modern websites and applications for businesses worldwide." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #fafaf9;
+      --surface: #ffffff;
+      --text: #1c1917;
+      --text-secondary: #78716c;
+      --accent: #4f46e5;
+      --accent-soft: #eef2ff;
+      --warm: #f5f0eb;
+      --border: #e7e5e4;
+      --radius: 16px;
+      --radius-sm: 10px;
+      --shadow: 0 4px 24px rgba(0,0,0,.05);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,.07);
+      --font: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --max-w: 1080px;
+      --transition: .3s cubic-bezier(.4,0,.2,1);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent); text-decoration: none; transition: color var(--transition); }
+    a:hover { color: #3730a3; }
+    img { max-width: 100%; display: block; }
+    ::selection { background: var(--accent-soft); color: var(--accent); }
+
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+    .section { padding: 88px 0; }
+    .section-label {
+      font-size: .75rem; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--accent); font-weight: 600; margin-bottom: 10px;
+    }
+    .section-title {
+      font-size: clamp(1.6rem, 3.5vw, 2.25rem); font-weight: 700;
+      line-height: 1.25; margin-bottom: 12px;
+    }
+    .section-desc {
+      color: var(--text-secondary); font-size: 1.02rem;
+      max-width: 520px; margin-bottom: 44px;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 26px; border-radius: 100px; font-weight: 600;
+      font-size: .92rem; transition: all var(--transition);
+      border: none; cursor: pointer; font-family: var(--font);
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #3730a3; transform: translateY(-1px); color: #fff; }
+    .btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-sm { padding: 10px 20px; font-size: .85rem; }
+    .tag {
+      display: inline-block; padding: 5px 13px; border-radius: 100px;
+      font-size: .76rem; font-weight: 600; background: var(--accent-soft); color: var(--accent);
+    }
+
+    /* Fade */
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* Nav */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(250,250,249,.88);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav.scrolled { box-shadow: 0 1px 8px rgba(0,0,0,.04); }
+    .nav-inner {
+      max-width: var(--max-w); margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between; height: 60px;
+    }
+    .nav-logo { font-weight: 700; font-size: 1.1rem; color: var(--text); }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { color: var(--text-secondary); font-size: .88rem; font-weight: 500; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta { font-size: .85rem; padding: 9px 20px; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .hamburger span { width: 20px; height: 2px; background: var(--text); border-radius: 2px; transition: all var(--transition); }
+
+    /* Hero */
+    .hero { padding: 140px 0 72px; text-align: center; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 16px; border-radius: 100px;
+      background: var(--warm); font-size: .85rem;
+      color: var(--text-secondary); font-weight: 500; margin-bottom: 24px;
+    }
+    .hero-badge .dot { width: 7px; height: 7px; background: #22c55e; border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1}50%{opacity:.4} }
+    .hero h1 {
+      font-size: clamp(2.2rem, 5.5vw, 3.5rem); font-weight: 700; line-height: 1.15;
+      letter-spacing: -.02em; margin-bottom: 20px;
+      max-width: 700px; margin-left: auto; margin-right: auto;
+    }
+    .hero h1 .highlight {
+      background: linear-gradient(120deg, var(--accent), #7c3aed);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero-desc {
+      color: var(--text-secondary); font-size: 1.1rem;
+      max-width: 520px; margin: 0 auto 36px;
+    }
+    .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .hero-stats {
+      display: flex; gap: 48px; justify-content: center;
+      margin-top: 56px; padding-top: 36px; border-top: 1px solid var(--border);
+    }
+    .stat-num { font-size: 1.6rem; font-weight: 700; }
+    .stat-label { font-size: .82rem; color: var(--text-secondary); margin-top: 2px; }
+
+    /* Platforms */
+    .platforms {
+      display: flex; align-items: center; justify-content: center;
+      gap: 32px; flex-wrap: wrap; padding: 36px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .platforms span { font-size: .85rem; font-weight: 600; color: var(--text-secondary); opacity: .6; letter-spacing: .02em; }
+
+    /* ══════ Case Study Projects ══════ */
+    .case-study {
+      padding: 64px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .case-study:last-child { border-bottom: none; }
+
+    .case-study-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: center;
+    }
+    .case-study:nth-child(even) .case-study-inner {
+      direction: rtl;
+    }
+    .case-study:nth-child(even) .case-study-inner > * {
+      direction: ltr;
+    }
+
+    .case-study-visual {
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      box-shadow: var(--shadow-lg);
+      transition: transform var(--transition);
+    }
+    .case-study-visual:hover {
+      transform: scale(1.02);
+    }
+
+    .case-study-number {
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .case-study-content h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+
+    .case-study-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .case-meta-block {}
+    .case-meta-label {
+      font-size: .72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .case-meta-text {
+      font-size: .92rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .case-study-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+
+    .case-study-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    /* Results strip */
+    .case-results {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 20px;
+      padding: 14px 18px;
+      background: var(--accent-soft);
+      border-radius: var(--radius-sm);
+    }
+    .case-result-item {}
+    .case-result-num {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1.2;
+    }
+    .case-result-label {
+      font-size: .72rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    /* Services */
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 20px; }
+    .service-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px; transition: all var(--transition);
+    }
+    .service-card:hover { border-color: var(--accent); box-shadow: var(--shadow); transform: translateY(-3px); }
+    .service-icon { font-size: 1.8rem; margin-bottom: 16px; }
+    .service-card h3 { font-size: 1.02rem; font-weight: 600; margin-bottom: 8px; }
+    .service-card p { color: var(--text-secondary); font-size: .88rem; line-height: 1.6; }
+    .service-price { margin-top: 14px; font-size: .84rem; color: var(--accent); font-weight: 600; }
+
+    /* Skills */
+    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .skill-category h3 { font-size: .95rem; font-weight: 600; margin-bottom: 14px; }
+    .skill-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .skill-pill {
+      padding: 7px 14px; background: var(--surface); border: 1px solid var(--border);
+      border-radius: 100px; font-size: .83rem; font-weight: 500;
+      color: var(--text-secondary); transition: all var(--transition);
+    }
+    .skill-pill:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+
+    /* About */
+    .about-grid { display: grid; grid-template-columns: auto 1fr; gap: 56px; align-items: center; }
+    .about-photo {
+      width: 280px; height: 280px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--warm), var(--accent-soft));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5rem; box-shadow: var(--shadow); flex-shrink: 0;
+    }
+    .about-text p { color: var(--text-secondary); margin-bottom: 14px; font-size: .96rem; }
+    .about-highlights { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+    .about-tag {
+      padding: 8px 16px; background: var(--warm); border-radius: 100px;
+      font-size: .84rem; font-weight: 500; color: var(--text);
+    }
+
+    /* Contact */
+    #contact { background: var(--surface); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+    .contact-info h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 20px; }
+    .contact-item { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; color: var(--text-secondary); font-size: .92rem; }
+    .contact-icon {
+      width: 38px; height: 38px; border-radius: 50%; background: var(--accent-soft);
+      display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0;
+    }
+    .contact-socials { display: flex; gap: 10px; margin-top: 24px; }
+    .social-link {
+      width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      transition: all var(--transition); font-size: .82rem; font-weight: 600; color: var(--text-secondary);
+    }
+    .social-link:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+    .contact-form { display: flex; flex-direction: column; gap: 14px; }
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-group label { font-size: .84rem; font-weight: 500; }
+    .form-group input, .form-group textarea, .form-group select {
+      padding: 11px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+      font-family: var(--font); font-size: .9rem; color: var(--text);
+      background: var(--bg); transition: border-color var(--transition); outline: none;
+    }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--accent); }
+    .form-group textarea { resize: vertical; min-height: 110px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    /* Footer */
+    .footer { padding: 36px 0; border-top: 1px solid var(--border); text-align: center; }
+    .footer p { color: var(--text-secondary); font-size: .82rem; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .section { padding: 64px 0; }
+      .hero { padding: 120px 0 56px; }
+      .nav-links { display: none; }
+      .nav-cta.desktop { display: none; }
+      .hamburger { display: flex; }
+      .nav-links.open {
+        display: flex; flex-direction: column; position: absolute;
+        top: 60px; left: 0; right: 0; background: var(--surface);
+        padding: 20px; gap: 14px; border-bottom: 1px solid var(--border);
+      }
+      .case-study-inner {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+      .case-study:nth-child(even) .case-study-inner { direction: ltr; }
+      .case-study-visual { aspect-ratio: 16/10; }
+      .case-study-content h3 { font-size: 1.25rem; }
+      .case-results { gap: 16px; flex-wrap: wrap; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .about-grid { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+      .about-highlights { justify-content: center; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .hero-stats { gap: 28px; }
+      .platforms { gap: 20px; }
+    }
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.8rem; }
+      .hero-stats { flex-direction: column; gap: 14px; text-align: center; }
+      .about-photo { width: 200px; height: 200px; font-size: 3.5rem; }
+      .case-results { flex-direction: column; gap: 10px; }
+    }
+    @media print {
+      .nav, .hamburger { display: none; }
+      .section { padding: 28px 0; }
+      .hero { padding-top: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">cahyo<span>.</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+    <a href="#contact" class="btn btn-primary nav-cta desktop">Get In Touch</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero section" id="hero">
+  <div class="container">
+    <div class="fade-in">
+      <div class="hero-badge"><span class="dot"></span> Available for new projects</div>
+      <h1>I help businesses grow with <span class="highlight">modern web solutions</span></h1>
+      <p class="hero-desc">I design and build websites, web apps, and digital products that look great, work smoothly, and help you reach your goals.</p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary">See My Work</a>
+        <a href="#contact" class="btn btn-outline">Start a Project</a>
+      </div>
+      <div class="hero-stats">
+        <div><div class="stat-num">50+</div><div class="stat-label">Projects Delivered</div></div>
+        <div><div class="stat-num">30+</div><div class="stat-label">Happy Clients</div></div>
+        <div><div class="stat-num">3+</div><div class="stat-label">Years Experience</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Platforms -->
+<div class="container">
+  <div class="platforms fade-in">
+    <span>Also on:</span>
+    <span>Fiverr</span>
+    <span>Upwork</span>
+    <span>Fastwork.id</span>
+    <span>Projects.co.id</span>
+    <span>LinkedIn</span>
+  </div>
+</div>
+
+<!-- ══════ Projects — Case Studies ══════ -->
+<section class="section" id="projects">
+  <div class="container">
+    <div class="fade-in">
+      <div class="section-label">Portfolio</div>
+      <h2 class="section-title">Recent Work</h2>
+      <p class="section-desc">Every project starts with a problem. Here's how I solved them.</p>
+    </div>
+
+    <!-- Project 1 -->
+    <div class="case-study fade-in">
+      <div class="case-study-inner">
+        <div class="case-study-visual" style="background: linear-gradient(135deg, #e0e7ff, #c7d2fe);">
+          🛒
+        </div>
+        <div class="case-study-content">
+          <div class="case-study-number">Project 01</div>
+          <h3>Online Store Platform</h3>
+          <div class="case-study-meta">
+            <div class="case-meta-block">
+              <div class="case-meta-label">The Challenge</div>
+              <div class="case-meta-text">A growing retail brand needed to move from marketplace-only sales to their own online store. They wanted full control over branding, customer data, and the buying experience.</div>
+            </div>
+            <div class="case-meta-block">
+              <div class="case-meta-label">What I Built</div>
+              <div class="case-meta-text">A complete e-commerce platform with product management, secure checkout, order tracking, and a clean admin dashboard — all custom-built to fit their workflow.</div>
+            </div>
+          </div>
+          <div class="case-results">
+            <div class="case-result-item">
+              <div class="case-result-num">3x</div>
+              <div class="case-result-label">Sales increase</div>
+            </div>
+            <div class="case-result-item">
+              <div class="case-result-num">1.2s</div>
+              <div class="case-result-label">Avg load time</div>
+            </div>
+            <div class="case-result-item">
+              <div class="case-result-num">40%</div>
+              <div class="case-result-label">Lower cart abandonment</div>
+            </div>
+          </div>
+          <div class="case-study-tags">
+            <span class="tag">E-Commerce</span>
+            <span class="tag">Payments</span>
+            <span class="tag">Dashboard</span>
+            <span class="tag">Responsive</span>
+          </div>
+          <div class="case-study-links">
+            <a href="#" class="btn btn-primary btn-sm">View Project ↗</a>
+            <a href="#" class="btn btn-outline btn-sm">Source Code</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project 2 -->
+    <div class="case-study fade-in">
+      <div class="case-study-inner">
+        <div class="case-study-visual" style="background: linear-gradient(135deg, #d1fae5, #a7f3d0);">
+          📊
+        </div>
+        <div class="case-study-content">
+          <div class="case-study-number">Project 02</div>
+          <h3>Business Analytics Dashboard</h3>
+          <div class="case-study-meta">
+            <div class="case-meta-block">
+              <div class="case-meta-label">The Challenge</div>
+              <div class="case-meta-text">A SaaS company was drowning in spreadsheets. Their team needed a single place to monitor key metrics, spot trends, and make faster decisions.</div>
+            </div>
+            <div class="case-meta-block">
+              <div class="case-meta-label">What I Built</div>
+              <div class="case-meta-text">An interactive dashboard with real-time charts, custom filters, automated reports, and CSV/PDF export. The team went from weekly reports to real-time insights.</div>
+            </div>
+          </div>
+          <div class="case-results">
+            <div class="case-result-item">
+              <div class="case-result-num">80%</div>
+              <div class="case-result-label">Faster reporting</div>
+            </div>
+            <div class="case-result-item">
+              <div class="case-result-num">12</div>
+              <div class="case-result-label">Live KPI widgets</div>
+            </div>
+            <div class="case-result-item">
+              <div class="case-result-num">Real-time</div>
+              <div class="case-result-label">Data updates</div>
+            </div>
+          </div>
+          <div class="case-study-tags">
+            <span class="tag">Analytics</span>
+            <span class="tag">Data Visualization</span>
+            <span class="tag">SaaS</span>
+            <span class="tag">Real-time</span>
+          </div>
+          <div class="case-study-links">
+            <a href="#" class="btn btn-primary btn-sm">View Project ↗</a>
+            <a href="#" class="btn btn-outline btn-sm">Case Study</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project 3 -->
+    <div class="case-study fade-in">
+      <div class="case-study-inner">
+        <div class="case-study-visual" style="background: linear-gradient(135deg, #fef3c7, #fde68a);">
+          💬
+        </div>
+        <div class="case-study-content">
+          <div class="case-study-number">Project 03</div>
+          <h3>Team Communication App</h3>
+          <div class="case-study-meta">
+            <div class="case-meta-block">
+              <div class="case-meta-label">The Challenge</div>
+              <div class="case-meta-text">A remote team of 50+ people relied on scattered tools for messaging. They needed one unified platform that worked instantly, even on slow connections.</div>
+            </div>
+            <div class="case-meta-block">
+              <div class="case-meta-label">What I Built</div>
+              <div class="case-meta-text">A real-time messaging app with group channels, direct messages, file sharing, read receipts, and push notifications. Designed mobile-first for on-the-go teams.</div>
+            </div>
+          </div>
+          <div class="case-results">
+            <div class="case-result-item">
+              <div class="case-result-num">50+</div>
+              <div class="case-result-label">Active daily users</div>
+            </div>
+            <div class="case-result-item">
+              <div class="case-result-num">&lt;100ms</div>
+              <div class="case-result-label">Message delivery</div>
+            </div>
+            <div class="case-result-item">
+              <div class="case-result-num">99.9%</div>
+              <div class="case-result-label">Uptime</div>
+            </div>
+          </div>
+          <div class="case-study-tags">
+            <span class="tag">Messaging</span>
+            <span class="tag">Real-time</span>
+            <span class="tag">Collaboration</span>
+            <span class="tag">Mobile</span>
+          </div>
+          <div class="case-study-links">
+            <a href="#" class="btn btn-primary btn-sm">View Project ↗</a>
+            <a href="#" class="btn btn-outline btn-sm">Source Code</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project 4 -->
+    <div class="case-study fade-in">
+      <div class="case-study-inner">
+        <div class="case-study-visual" style="background: linear-gradient(135deg, #fce7f3, #fbcfe8);">
+          📋
+        </div>
+        <div class="case-study-content">
+          <div class="case-study-number">Project 04</div>
+          <h3>Project Management Tool</h3>
+          <div class="case-study-meta">
+            <div class="case-meta-block">
+              <div class="case-meta-label">The Challenge</div>
+              <div class="case-meta-text">A small agency was losing track of projects across clients. Deadlines were missed, tasks fell through the cracks, and there was no single source of truth.</div>
+            </div>
+            <div class="case-meta-block">
+              <div class="case-meta-label">What I Built</div>
+              <div class="case-meta-text">A Kanban-style project manager with drag-and-drop task boards, team assignments, deadline alerts, progress tracking, and client-facing status pages.</div>
+            </div>
+          </div>
+          <div class="case-results">
+            <div class="case-result-item">
+              <div class="case-result-num">95%</div>
+              <div class="case-result-label">On-time delivery</div>
+            </div>
+            <div class="case-result-item">
+              <div class="case-result-num">5</div>
+              <div class="case-result-label">Teams using it</div>
+            </div>
+            <div class="case-result-item">
+              <div class="case-result-num">Zero</div>
+              <div class="case-result-label">Missed deadlines</div>
+            </div>
+          </div>
+          <div class="case-study-tags">
+            <span class="tag">Productivity</span>
+            <span class="tag">Teams</span>
+            <span class="tag">Kanban</span>
+            <span class="tag">Notifications</span>
+          </div>
+          <div class="case-study-links">
+            <a href="#" class="btn btn-primary btn-sm">View Project ↗</a>
+            <a href="#" class="btn btn-outline btn-sm">Source Code</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Services -->
+<section class="section" id="services" style="background: var(--surface);">
+  <div class="container">
+    <div class="fade-in">
+      <div class="section-label">Services</div>
+      <h2 class="section-title">How I Can Help</h2>
+      <p class="section-desc">From simple landing pages to full-featured web applications — I handle every step.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card fade-in">
+        <div class="service-icon">🌐</div>
+        <h3>Website & Web App</h3>
+        <p>Custom websites and web applications tailored to your business. Responsive, fast, and easy to manage.</p>
+        <div class="service-price">From $500</div>
+      </div>
+      <div class="service-card fade-in">
+        <div class="service-icon">🔌</div>
+        <h3>Backend & API</h3>
+        <p>Reliable server-side systems, databases, and integrations that power your product behind the scenes.</p>
+        <div class="service-price">From $400</div>
+      </div>
+      <div class="service-card fade-in">
+        <div class="service-icon">✨</div>
+        <h3>Landing Pages</h3>
+        <p>Beautiful, high-converting pages to showcase your product, service, or event. Fast turnaround.</p>
+        <div class="service-price">From $200</div>
+      </div>
+      <div class="service-card fade-in">
+        <div class="service-icon">🛠️</div>
+        <h3>Fixes & Support</h3>
+        <p>Quick bug fixes, performance improvements, and ongoing support for your existing website or app.</p>
+        <div class="service-price">From $50/hr</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Skills -->
+<section class="section" id="skills">
+  <div class="container">
+    <div class="fade-in">
+      <div class="section-label">Expertise</div>
+      <h2 class="section-title">What I Work With</h2>
+      <p class="section-desc">The tools and technologies I use to bring projects to life.</p>
+    </div>
+    <div class="skills-grid fade-in">
+      <div class="skill-category">
+        <h3>Frontend</h3>
+        <div class="skill-list">
+          <span class="skill-pill">HTML / CSS</span>
+          <span class="skill-pill">JavaScript</span>
+          <span class="skill-pill">TypeScript</span>
+          <span class="skill-pill">React</span>
+          <span class="skill-pill">Next.js</span>
+          <span class="skill-pill">Vue.js</span>
+          <span class="skill-pill">Tailwind CSS</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <h3>Backend</h3>
+        <div class="skill-list">
+          <span class="skill-pill">Node.js</span>
+          <span class="skill-pill">Express</span>
+          <span class="skill-pill">Laravel</span>
+          <span class="skill-pill">Python</span>
+          <span class="skill-pill">REST APIs</span>
+          <span class="skill-pill">GraphQL</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <h3>Database & Cloud</h3>
+        <div class="skill-list">
+          <span class="skill-pill">PostgreSQL</span>
+          <span class="skill-pill">MySQL</span>
+          <span class="skill-pill">MongoDB</span>
+          <span class="skill-pill">Firebase</span>
+          <span class="skill-pill">AWS</span>
+          <span class="skill-pill">Vercel</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <h3>Tools</h3>
+        <div class="skill-list">
+          <span class="skill-pill">Git / GitHub</span>
+          <span class="skill-pill">Docker</span>
+          <span class="skill-pill">Figma</span>
+          <span class="skill-pill">Linux</span>
+          <span class="skill-pill">CI/CD</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section class="section" id="about" style="background: var(--surface);">
+  <div class="container">
+    <div class="about-grid fade-in">
+      <div class="about-photo">👋</div>
+      <div class="about-text">
+        <div class="section-label">About Me</div>
+        <h2 class="section-title">Hi, I'm Cahyo.</h2>
+        <p>I'm a freelance web developer based in Indonesia, working with clients around the world. I love turning ideas into real, working products that make a difference for businesses and their users.</p>
+        <p>I believe great work comes from clear communication, careful planning, and attention to detail. Whether you need a simple website or a complex application, I treat every project with the same level of care.</p>
+        <div class="about-highlights">
+          <span class="about-tag">Clean Design</span>
+          <span class="about-tag">Fast Delivery</span>
+          <span class="about-tag">Clear Communication</span>
+          <span class="about-tag">Ongoing Support</span>
+          <span class="about-tag">Remote Friendly</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="section" id="contact">
+  <div class="container">
+    <div class="fade-in">
+      <div class="section-label">Contact</div>
+      <h2 class="section-title">Let's Work Together</h2>
+      <p class="section-desc">Have a project in mind? I'd love to hear about it. Drop me a message and let's get started.</p>
+    </div>
+    <div class="contact-grid fade-in">
+      <div class="contact-info">
+        <h3>Reach Out</h3>
+        <div class="contact-item">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <div style="font-weight:600;color:var(--text);">Email</div>
+            nurcahyoputro0@gmail.com
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <div style="font-weight:600;color:var(--text);">Location</div>
+            Indonesia (Available Worldwide)
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">⏰</div>
+          <div>
+            <div style="font-weight:600;color:var(--text);">Hours</div>
+            Mon – Sat, 9 AM – 6 PM WIB
+          </div>
+        </div>
+        <div class="contact-socials">
+          <a href="#" class="social-link" title="GitHub">GH</a>
+          <a href="#" class="social-link" title="LinkedIn">LI</a>
+          <a href="#" class="social-link" title="Fiverr">FV</a>
+          <a href="#" class="social-link" title="Upwork">UW</a>
+        </div>
+      </div>
+      <form class="contact-form" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="Your name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="you@example.com" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="service">What do you need?</label>
+          <select id="service">
+            <option value="">Choose a service</option>
+            <option>Website or Web App</option>
+            <option>Backend / API</option>
+            <option>Landing Page</option>
+            <option>Bug Fixes & Support</option>
+            <option>Something Else</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="message">Tell me about your project</label>
+          <textarea id="message" placeholder="What are you building? What's the timeline and budget?" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="align-self:flex-start;">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <p>&copy; 2026 Cahyo. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20));
+
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(l => l.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    btn.textContent = 'Sent!';
+    btn.style.background = '#22c55e';
+    setTimeout(() => { btn.textContent = 'Send Message'; btn.style.background = ''; e.target.reset(); }, 3000);
+  }
+</script>
+
+</body>
+</html>
