@@ -80,6 +80,7 @@
       max-width: var(--max-w); margin: 0 auto; padding: 0 24px;
       display: flex; align-items: center; justify-content: space-between; height: 60px;
     }
+    .nav-left { display: flex; align-items: center; gap: 12px; }
     .nav-logo { font-weight: 700; font-size: 1.1rem; color: var(--text); }
     .nav-logo span { color: var(--accent); }
     .nav-links { display: flex; gap: 28px; list-style: none; }
@@ -93,7 +94,6 @@
     .lang-switch {
       display: flex; align-items: center; gap: 4px;
       background: var(--warm); border-radius: 100px; padding: 3px;
-      margin-left: 12px;
     }
     .lang-btn {
       padding: 5px 12px; border-radius: 100px; font-size: .78rem;
@@ -618,7 +618,13 @@
 <!-- Nav -->
 <nav class="nav" id="nav">
   <div class="nav-inner">
-    <a href="#" class="nav-logo">cahyo<span>.</span></a>
+    <div class="nav-left">
+      <a href="#" class="nav-logo">cahyo<span>.</span></a>
+      <div class="lang-switch">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="id">ID</button>
+      </div>
+    </div>
     <ul class="nav-links" id="navLinks">
       <li><a href="#projects" data-i18n="nav_projects">Projects</a></li>
       <li><a href="#services" data-i18n="nav_services">Services</a></li>
@@ -626,10 +632,6 @@
       <li><a href="#hero" data-i18n="nav_about">About</a></li>
     </ul>
     <a href="#contact" class="btn btn-primary nav-cta desktop" data-i18n="nav_cta">Get In Touch</a>
-    <div class="lang-switch">
-      <button class="lang-btn active" data-lang="en">EN</button>
-      <button class="lang-btn" data-lang="id">ID</button>
-    </div>
     <button class="hamburger" id="hamburger" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
