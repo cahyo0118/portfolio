@@ -89,6 +89,23 @@
     .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
     .hamburger span { width: 20px; height: 2px; background: var(--text); border-radius: 2px; transition: all var(--transition); }
 
+    /* Language switcher */
+    .lang-switch {
+      display: flex; align-items: center; gap: 4px;
+      background: var(--warm); border-radius: 100px; padding: 3px;
+      margin-left: 12px;
+    }
+    .lang-btn {
+      padding: 5px 12px; border-radius: 100px; font-size: .78rem;
+      font-weight: 600; border: none; cursor: pointer;
+      font-family: var(--font); background: transparent;
+      color: var(--text-secondary); transition: all var(--transition);
+    }
+    .lang-btn.active {
+      background: var(--surface); color: var(--accent);
+      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+    }
+
     /* Hero */
     .hero { padding: 140px 0 72px; }
     .hero-grid {
@@ -358,16 +375,36 @@
     }
 
     /* Services */
-    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 20px; }
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
     .service-card {
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 28px; transition: all var(--transition);
+      border-radius: var(--radius); overflow: hidden; transition: all var(--transition);
     }
     .service-card:hover { border-color: var(--accent); box-shadow: var(--shadow); transform: translateY(-3px); }
+    .service-cover { aspect-ratio: 16/9; position: relative; overflow: hidden; }
+    .service-cover img { width: 100%; height: 100%; object-fit: cover; }
+    .service-body { padding: 24px; }
     .service-icon { font-size: 1.8rem; margin-bottom: 16px; }
     .service-card h3 { font-size: 1.02rem; font-weight: 600; margin-bottom: 8px; }
     .service-card p { color: var(--text-secondary); font-size: .88rem; line-height: 1.6; }
-    .service-price { margin-top: 14px; font-size: .84rem; color: var(--accent); font-weight: 600; }
+    .service-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+    .service-tag { padding: 4px 10px; border-radius: 100px; font-size: .72rem; font-weight: 600; background: var(--warm); color: var(--text-secondary); }
+    .service-tag.ai { background: var(--accent-soft); color: var(--accent); }
+
+    /* Service Packages */
+    .service-packages { margin-top: 20px; border-top: 1px solid var(--border); padding-top: 18px; }
+    .service-packages-title { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--accent); margin-bottom: 12px; }
+    .pkg { padding: 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 10px; transition: all var(--transition); }
+    .pkg:last-child { margin-bottom: 0; }
+    .pkg:hover { border-color: var(--accent); background: var(--accent-soft); }
+    .pkg.featured { border-color: var(--accent); background: linear-gradient(135deg, var(--accent-soft), #f5f3ff); }
+    .pkg-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+    .pkg-name { font-size: .88rem; font-weight: 700; color: var(--text); }
+    .pkg-badge { font-size: .62rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding: 2px 8px; border-radius: 100px; background: var(--accent); color: #fff; }
+    .pkg-desc { font-size: .78rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 10px; }
+    .pkg-meta { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pkg-meta-item { display: inline-flex; align-items: center; gap: 4px; font-size: .72rem; font-weight: 600; color: var(--text-secondary); background: var(--warm); padding: 3px 10px; border-radius: 100px; }
+    .pkg-meta-item.price { color: var(--accent); background: var(--accent-soft); font-weight: 700; }
 
     /* Skills */
     .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
@@ -581,12 +618,16 @@
   <div class="nav-inner">
     <a href="#" class="nav-logo">cahyo<span>.</span></a>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#hero">About</a></li>
+      <li><a href="#projects" data-i18n="nav_projects">Projects</a></li>
+      <li><a href="#services" data-i18n="nav_services">Services</a></li>
+      <li><a href="#skills" data-i18n="nav_skills">Skills</a></li>
+      <li><a href="#hero" data-i18n="nav_about">About</a></li>
     </ul>
-    <a href="#contact" class="btn btn-primary nav-cta desktop">Get In Touch</a>
+    <a href="#contact" class="btn btn-primary nav-cta desktop" data-i18n="nav_cta">Get In Touch</a>
+    <div class="lang-switch">
+      <button class="lang-btn active" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="id">ID</button>
+    </div>
     <button class="hamburger" id="hamburger" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
@@ -601,27 +642,27 @@
         <img src="images/cahyo.jpg" alt="Cahyo - Web Developer" />
       </div>
       <div class="hero-content">
-        <div class="hero-badge"><span class="dot"></span> Available for new projects</div>
-        <h1>Hi, I'm Cahyo. I build <span class="highlight">modern web solutions</span></h1>
-        <p class="hero-desc">I'm a freelance web developer based in Indonesia, working with clients around the world. I turn ideas into real, working products that make a difference.</p>
-        <p class="hero-about">I believe great work comes from clear communication, careful planning, and attention to detail. Whether you need a simple website or a complex application, I treat every project with the same level of care.</p>
+        <div class="hero-badge"><span class="dot"></span> <span data-i18n="hero_badge">Available for new projects</span></div>
+        <h1><span data-i18n="hero_greeting">Hi, I'm Cahyo. I build </span><span class="highlight" data-i18n="hero_highlight">modern web solutions</span></h1>
+        <p class="hero-desc" data-i18n="hero_desc">I'm a freelance web developer based in Indonesia, working with clients around the world. I turn ideas into real, working products that make a difference.</p>
+        <p class="hero-about" data-i18n="hero_about">I believe great work comes from clear communication, careful planning, and attention to detail. Whether you need a simple website or a complex application, I treat every project with the same level of care.</p>
         <div class="hero-actions">
-          <a href="#projects" class="btn btn-primary">See My Work</a>
-          <a href="#contact" class="btn btn-outline">Start a Project</a>
+          <a href="#projects" class="btn btn-primary" data-i18n="hero_cta1">See My Work</a>
+          <a href="#contact" class="btn btn-outline" data-i18n="hero_cta2">Start a Project</a>
         </div>
         <div class="hero-tags">
-          <span class="hero-tag">Clean Design</span>
-          <span class="hero-tag">Fast Delivery</span>
-          <span class="hero-tag">Clear Communication</span>
-          <span class="hero-tag">Ongoing Support</span>
-          <span class="hero-tag">Remote Friendly</span>
+          <span class="hero-tag" data-i18n="tag_design">Clean Design</span>
+          <span class="hero-tag" data-i18n="tag_delivery">Fast Delivery</span>
+          <span class="hero-tag" data-i18n="tag_comm">Clear Communication</span>
+          <span class="hero-tag" data-i18n="tag_support">Ongoing Support</span>
+          <span class="hero-tag" data-i18n="tag_remote">Remote Friendly</span>
         </div>
       </div>
     </div>
     <div class="hero-stats fade-in">
-      <div><div class="stat-num">30+</div><div class="stat-label">Projects Delivered</div></div>
-      <div><div class="stat-num">20+</div><div class="stat-label">Happy Clients</div></div>
-      <div><div class="stat-num">9+</div><div class="stat-label">Years Experience</div></div>
+      <div><div class="stat-num">30+</div><div class="stat-label" data-i18n="stat_projects">Projects Delivered</div></div>
+      <div><div class="stat-num">20+</div><div class="stat-label" data-i18n="stat_clients">Happy Clients</div></div>
+      <div><div class="stat-num">9+</div><div class="stat-label" data-i18n="stat_years">Years Experience</div></div>
     </div>
   </div>
 </section>
@@ -629,7 +670,7 @@
 <!-- Platforms -->
 <div class="container">
   <div class="platforms fade-in">
-    <span>Also on:</span>
+    <span data-i18n="platforms_label">Also on:</span>
     <span>Fiverr</span>
     <span>Upwork</span>
     <span>Fastwork.id</span>
@@ -642,9 +683,9 @@
 <section class="section" id="projects">
   <div class="container">
     <div class="fade-in">
-      <div class="section-label">Portfolio</div>
-      <h2 class="section-title">Recent Work</h2>
-      <p class="section-desc">Every project starts with a problem. Here's how I solved them.</p>
+      <div class="section-label" data-i18n="proj_label">Portfolio</div>
+      <h2 class="section-title" data-i18n="proj_title">Recent Work</h2>
+      <p class="section-desc" data-i18n="proj_desc">Every project starts with a problem. Here's how I solved them.</p>
     </div>
 
     <!-- WarisHub -->
@@ -663,21 +704,21 @@
           </div>
         </div>
         <div class="case-study-content">
-          <div class="case-study-number">Project 01</div>
-          <h3>WarisHub — Intelligent Inheritance Management</h3>
-          <p class="case-meta-text">SaaS platform for Malaysian legal professionals to automate inheritance cases — AI document processing, Faraid &amp; Civil law calculations, family tree builder, and subscription billing.</p>
+          <div class="case-study-number" data-i18n="proj_num1">Project 01</div>
+          <h3 data-i18n="wh_title">WarisHub — Intelligent Inheritance Management</h3>
+          <p class="case-meta-text" data-i18n="wh_desc">SaaS platform for Malaysian legal professionals to automate inheritance cases — AI document processing, Faraid &amp; Civil law calculations, family tree builder, and subscription billing.</p>
           <div class="case-results">
             <div class="case-result-item">
               <div class="case-result-num">AI</div>
-              <div class="case-result-label">Document processing</div>
+              <div class="case-result-label" data-i18n="wh_r1">Document processing</div>
             </div>
             <div class="case-result-item">
               <div class="case-result-num">5 modules</div>
-              <div class="case-result-label">Case management</div>
+              <div class="case-result-label" data-i18n="wh_r2">Case management</div>
             </div>
             <div class="case-result-item">
               <div class="case-result-num">SaaS</div>
-              <div class="case-result-label">Multi-tier billing</div>
+              <div class="case-result-label" data-i18n="wh_r3">Multi-tier billing</div>
             </div>
           </div>
           <div class="case-study-tags">
@@ -688,7 +729,7 @@
             <span class="tag">Billing</span>
           </div>
           <div class="case-tech">
-            <div class="case-tech-label">Tech Stack</div>
+            <div class="case-tech-label" data-i18n="tech_stack">Tech Stack</div>
             <div class="tech-pills">
               <span class="tech-pill"><span class="tech-dot" style="background:#5382a1;"></span>Java 21</span>
               <span class="tech-pill"><span class="tech-dot" style="background:#6db33f;"></span>Spring Boot</span>
@@ -702,7 +743,7 @@
             </div>
           </div>
           <div class="case-study-links">
-            <a href="https://warishub.dicicip.com" target="_blank" class="btn btn-primary btn-sm">Visit Site ↗</a>
+            <a href="https://warishub.dicicip.com" target="_blank" class="btn btn-primary btn-sm" data-i18n="visit_site">Visit Site ↗</a>
           </div>
         </div>
       </div>
@@ -725,21 +766,21 @@
           </div>
         </div>
         <div class="case-study-content">
-          <div class="case-study-number">Project 02</div>
-          <h3>Compounder — Track Money. Build Wealth.</h3>
-          <p class="case-meta-text">All-in-one personal finance app — track expenses, budgets, investments, multi-wallet balances, and emergency fund goals with real-time charts and WhatsApp notifications.</p>
+          <div class="case-study-number" data-i18n="proj_num2">Project 02</div>
+          <h3 data-i18n="cp_title">Compounder — Track Money. Build Wealth.</h3>
+          <p class="case-meta-text" data-i18n="cp_desc">All-in-one personal finance app — track expenses, budgets, investments, multi-wallet balances, and emergency fund goals with real-time charts and WhatsApp notifications.</p>
           <div class="case-results">
             <div class="case-result-item">
               <div class="case-result-num">5</div>
-              <div class="case-result-label">Core modules</div>
+              <div class="case-result-label" data-i18n="cp_r1">Core modules</div>
             </div>
             <div class="case-result-item">
               <div class="case-result-num">IDR/USD</div>
-              <div class="case-result-label">Multi-currency</div>
+              <div class="case-result-label" data-i18n="cp_r2">Multi-currency</div>
             </div>
             <div class="case-result-item">
               <div class="case-result-num">Real-time</div>
-              <div class="case-result-label">Charts & insights</div>
+              <div class="case-result-label" data-i18n="cp_r3">Charts & insights</div>
             </div>
           </div>
           <div class="case-study-tags">
@@ -750,7 +791,7 @@
             <span class="tag">Personal Project</span>
           </div>
           <div class="case-tech">
-            <div class="case-tech-label">Tech Stack</div>
+            <div class="case-tech-label" data-i18n="tech_stack">Tech Stack</div>
             <div class="tech-pills">
               <span class="tech-pill"><span class="tech-dot" style="background:#000000;"></span>Next.js 16</span>
               <span class="tech-pill"><span class="tech-dot" style="background:#3178c6;"></span>TypeScript</span>
@@ -765,7 +806,7 @@
             </div>
           </div>
           <div class="case-study-links">
-            <a href="https://compounder.dicicip.com" target="_blank" class="btn btn-primary btn-sm">Visit Site ↗</a>
+            <a href="https://compounder.dicicip.com" target="_blank" class="btn btn-primary btn-sm" data-i18n="visit_site">Visit Site ↗</a>
           </div>
         </div>
       </div>
@@ -778,34 +819,130 @@
 <section class="section" id="services" style="background: var(--surface);">
   <div class="container">
     <div class="fade-in">
-      <div class="section-label">Services</div>
-      <h2 class="section-title">How I Can Help</h2>
-      <p class="section-desc">From simple landing pages to full-featured web applications — I handle every step.</p>
+      <div class="section-label" data-i18n="svc_label">Services</div>
+      <h2 class="section-title" data-i18n="svc_title">What I Can Build For You</h2>
+      <p class="section-desc" data-i18n="svc_desc">End-to-end development — from idea to deployment.</p>
     </div>
     <div class="services-grid">
       <div class="service-card fade-in">
-        <div class="service-icon">🌐</div>
-        <h3>Website & Web App</h3>
-        <p>Custom websites and web applications tailored to your business. Responsive, fast, and easy to manage.</p>
-        <div class="service-price">From $500</div>
+        <div class="service-cover">
+          <img src="images/service-web.png" alt="Web Development" />
+        </div>
+        <div class="service-body">
+          <h3 data-i18n="svc_web_title">Web Development</h3>
+          <p data-i18n="svc_web_desc">Custom websites and web apps — from landing pages to complex platforms. Can integrate AI features like smart search, recommendations, and content generation.</p>
+          <div class="service-tags"><span class="service-tag">Standard</span><span class="service-tag ai">AI-Integrated</span></div>
+          <div class="service-packages">
+            <div class="service-packages-title" data-i18n="pkg_title">Packages</div>
+            <div class="pkg">
+              <div class="pkg-header"><span class="pkg-name" data-i18n="web_pkg1_name">Landing Page</span></div>
+              <div class="pkg-desc" data-i18n="web_pkg1_desc">Single-page website with responsive design, contact form, and basic SEO setup.</div>
+              <div class="pkg-meta">
+                <span class="pkg-meta-item price" data-i18n="web_pkg1_price">From Rp 1.5M</span>
+                <span class="pkg-meta-item" data-i18n="web_pkg1_dur">5–7 days</span>
+                <span class="pkg-meta-item" data-i18n="web_pkg1_rev">2 revisions</span>
+              </div>
+            </div>
+            <div class="pkg featured">
+              <div class="pkg-header"><span class="pkg-name" data-i18n="web_pkg2_name">Business Website</span><span class="pkg-badge" data-i18n="pkg_popular">Popular</span></div>
+              <div class="pkg-desc" data-i18n="web_pkg2_desc">Multi-page website with CMS, blog, analytics, and performance optimization.</div>
+              <div class="pkg-meta">
+                <span class="pkg-meta-item price" data-i18n="web_pkg2_price">From Rp 5M</span>
+                <span class="pkg-meta-item" data-i18n="web_pkg2_dur">2–3 weeks</span>
+                <span class="pkg-meta-item" data-i18n="web_pkg2_rev">3 revisions</span>
+              </div>
+            </div>
+            <div class="pkg">
+              <div class="pkg-header"><span class="pkg-name" data-i18n="web_pkg3_name">Web Application</span></div>
+              <div class="pkg-desc" data-i18n="web_pkg3_desc">Full-stack web app with auth, dashboard, database, API, and optional AI integration.</div>
+              <div class="pkg-meta">
+                <span class="pkg-meta-item price" data-i18n="web_pkg3_price">From Rp 15M</span>
+                <span class="pkg-meta-item" data-i18n="web_pkg3_dur">4–8 weeks</span>
+                <span class="pkg-meta-item" data-i18n="web_pkg3_rev">5 revisions</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="service-card fade-in">
-        <div class="service-icon">🔌</div>
-        <h3>Backend & API</h3>
-        <p>Reliable server-side systems, databases, and integrations that power your product behind the scenes.</p>
-        <div class="service-price">From $400</div>
+        <div class="service-cover">
+          <img src="images/service-chatbot.png" alt="Chatbot Development" />
+        </div>
+        <div class="service-body">
+          <h3 data-i18n="svc_chat_title">Chatbot Development</h3>
+          <p data-i18n="svc_chat_desc">Intelligent chatbots for customer support, lead generation, or internal tools. Powered by modern AI with natural conversation flow.</p>
+          <div class="service-tags"><span class="service-tag ai">AI-Powered</span></div>
+          <div class="service-packages">
+            <div class="service-packages-title" data-i18n="pkg_title">Packages</div>
+            <div class="pkg">
+              <div class="pkg-header"><span class="pkg-name" data-i18n="chat_pkg1_name">Basic Bot</span></div>
+              <div class="pkg-desc" data-i18n="chat_pkg1_desc">Rule-based chatbot with FAQ responses, WhatsApp or Telegram integration.</div>
+              <div class="pkg-meta">
+                <span class="pkg-meta-item price" data-i18n="chat_pkg1_price">From Rp 500K</span>
+                <span class="pkg-meta-item" data-i18n="chat_pkg1_dur">3–5 days</span>
+                <span class="pkg-meta-item" data-i18n="chat_pkg1_rev">2 revisions</span>
+              </div>
+            </div>
+            <div class="pkg featured">
+              <div class="pkg-header"><span class="pkg-name" data-i18n="chat_pkg2_name">AI Assistant</span><span class="pkg-badge" data-i18n="pkg_popular">Popular</span></div>
+              <div class="pkg-desc" data-i18n="chat_pkg2_desc">AI-powered chatbot with natural conversation, context memory, and multi-platform deployment.</div>
+              <div class="pkg-meta">
+                <span class="pkg-meta-item price" data-i18n="chat_pkg2_price">From Rp 1M</span>
+                <span class="pkg-meta-item" data-i18n="chat_pkg2_dur">1–2 weeks</span>
+                <span class="pkg-meta-item" data-i18n="chat_pkg2_rev">3 revisions</span>
+              </div>
+            </div>
+            <div class="pkg">
+              <div class="pkg-header"><span class="pkg-name" data-i18n="chat_pkg3_name">Enterprise Bot</span></div>
+              <div class="pkg-desc" data-i18n="chat_pkg3_desc">Custom AI agent with knowledge base, CRM integration, analytics dashboard, and multi-language support.</div>
+              <div class="pkg-meta">
+                <span class="pkg-meta-item price" data-i18n="chat_pkg3_price">From Rp 2M</span>
+                <span class="pkg-meta-item" data-i18n="chat_pkg3_dur">2–3 weeks</span>
+                <span class="pkg-meta-item" data-i18n="chat_pkg3_rev">5 revisions</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="service-card fade-in">
-        <div class="service-icon">✨</div>
-        <h3>Landing Pages</h3>
-        <p>Beautiful, high-converting pages to showcase your product, service, or event. Fast turnaround.</p>
-        <div class="service-price">From $200</div>
-      </div>
-      <div class="service-card fade-in">
-        <div class="service-icon">🛠️</div>
-        <h3>Fixes & Support</h3>
-        <p>Quick bug fixes, performance improvements, and ongoing support for your existing website or app.</p>
-        <div class="service-price">From $50/hr</div>
+        <div class="service-cover">
+          <img src="images/service-mobile.png" alt="Mobile Development" />
+        </div>
+        <div class="service-body">
+          <h3 data-i18n="svc_mobile_title">Mobile Development</h3>
+          <p data-i18n="svc_mobile_desc">Cross-platform mobile apps for iOS and Android. Clean UI, smooth performance, and seamless backend integration.</p>
+          <div class="service-tags"><span class="service-tag">iOS</span><span class="service-tag">Android</span></div>
+          <div class="service-packages">
+            <div class="service-packages-title" data-i18n="pkg_title">Packages</div>
+            <div class="pkg">
+              <div class="pkg-header"><span class="pkg-name" data-i18n="mob_pkg1_name">Simple App</span></div>
+              <div class="pkg-desc" data-i18n="mob_pkg1_desc">Simple mobile app with core features, one platform (iOS or Android), and basic UI.</div>
+              <div class="pkg-meta">
+                <span class="pkg-meta-item price" data-i18n="mob_pkg1_price">From Rp 1.5M</span>
+                <span class="pkg-meta-item" data-i18n="mob_pkg1_dur">5–7 days</span>
+                <span class="pkg-meta-item" data-i18n="mob_pkg1_rev">2 revisions</span>
+              </div>
+            </div>
+            <div class="pkg featured">
+              <div class="pkg-header"><span class="pkg-name" data-i18n="mob_pkg2_name">Standard App</span><span class="pkg-badge" data-i18n="pkg_popular">Popular</span></div>
+              <div class="pkg-desc" data-i18n="mob_pkg2_desc">iOS + Android app with polished UI, push notifications, auth, and backend API.</div>
+              <div class="pkg-meta">
+                <span class="pkg-meta-item price" data-i18n="mob_pkg2_price">From Rp 5M</span>
+                <span class="pkg-meta-item" data-i18n="mob_pkg2_dur">2–3 weeks</span>
+                <span class="pkg-meta-item" data-i18n="mob_pkg2_rev">3 revisions</span>
+              </div>
+            </div>
+            <div class="pkg">
+              <div class="pkg-header"><span class="pkg-name" data-i18n="mob_pkg3_name">Full-Suite App</span></div>
+              <div class="pkg-desc" data-i18n="mob_pkg3_desc">Complete mobile solution with admin panel, real-time features, payment integration, and app store deployment.</div>
+              <div class="pkg-meta">
+                <span class="pkg-meta-item price" data-i18n="mob_pkg3_price">From Rp 15M</span>
+                <span class="pkg-meta-item" data-i18n="mob_pkg3_dur">4–8 weeks</span>
+                <span class="pkg-meta-item" data-i18n="mob_pkg3_rev">5 revisions</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -815,13 +952,13 @@
 <section class="section" id="skills">
   <div class="container">
     <div class="fade-in">
-      <div class="section-label">Expertise</div>
-      <h2 class="section-title">What I Work With</h2>
-      <p class="section-desc">The tools and technologies I use to bring projects to life.</p>
+      <div class="section-label" data-i18n="skills_label">Expertise</div>
+      <h2 class="section-title" data-i18n="skills_title">What I Work With</h2>
+      <p class="section-desc" data-i18n="skills_desc">The tools and technologies I use to bring projects to life.</p>
     </div>
     <div class="skills-grid fade-in">
       <div class="skill-category">
-        <h3>Frontend</h3>
+        <h3 data-i18n="skills_fe">Frontend</h3>
         <div class="skill-list">
           <span class="skill-pill">HTML / CSS</span>
           <span class="skill-pill">JavaScript</span>
@@ -833,7 +970,7 @@
         </div>
       </div>
       <div class="skill-category">
-        <h3>Backend</h3>
+        <h3 data-i18n="skills_be">Backend</h3>
         <div class="skill-list">
           <span class="skill-pill">Node.js</span>
           <span class="skill-pill">Express</span>
@@ -844,7 +981,7 @@
         </div>
       </div>
       <div class="skill-category">
-        <h3>Database & Cloud</h3>
+        <h3 data-i18n="skills_db">Database & Cloud</h3>
         <div class="skill-list">
           <span class="skill-pill">PostgreSQL</span>
           <span class="skill-pill">MySQL</span>
@@ -854,7 +991,7 @@
         </div>
       </div>
       <div class="skill-category">
-        <h3>Tools</h3>
+        <h3 data-i18n="skills_tools">Tools</h3>
         <div class="skill-list">
           <span class="skill-pill">Git / GitHub</span>
           <span class="skill-pill">Docker</span>
@@ -872,32 +1009,32 @@
 <section class="section" id="contact">
   <div class="container">
     <div class="fade-in">
-      <div class="section-label">Contact</div>
-      <h2 class="section-title">Let's Work Together</h2>
-      <p class="section-desc">Have a project in mind? I'd love to hear about it. Drop me a message and let's get started.</p>
+      <div class="section-label" data-i18n="contact_label">Contact</div>
+      <h2 class="section-title" data-i18n="contact_title">Let's Work Together</h2>
+      <p class="section-desc" data-i18n="contact_desc">Have a project in mind? I'd love to hear about it. Drop me a message and let's get started.</p>
     </div>
     <div class="contact-grid fade-in">
       <div class="contact-info">
-        <h3>Reach Out</h3>
+        <h3 data-i18n="contact_reach">Reach Out</h3>
         <div class="contact-item">
           <div class="contact-icon">✉️</div>
           <div>
-            <div style="font-weight:600;color:var(--text);">Email</div>
+            <div style="font-weight:600;color:var(--text);" data-i18n="contact_email_label">Email</div>
             nurcahyoputro0@gmail.com
           </div>
         </div>
         <div class="contact-item">
           <div class="contact-icon">📍</div>
           <div>
-            <div style="font-weight:600;color:var(--text);">Location</div>
-            Indonesia (Available Worldwide)
+            <div style="font-weight:600;color:var(--text);" data-i18n="contact_loc_label">Location</div>
+            <span data-i18n="contact_loc_val">Indonesia (Available Worldwide)</span>
           </div>
         </div>
         <div class="contact-item">
           <div class="contact-icon">⏰</div>
           <div>
-            <div style="font-weight:600;color:var(--text);">Hours</div>
-            Mon – Sat, 9 AM – 6 PM WIB
+            <div style="font-weight:600;color:var(--text);" data-i18n="contact_hours_label">Hours</div>
+            <span data-i18n="contact_hours_val">Mon – Sat, 9 AM – 6 PM WIB</span>
           </div>
         </div>
         <div class="contact-socials">
@@ -908,16 +1045,16 @@
         </div>
       </div>
       <div class="contact-cta-area">
-        <h3>Let's Chat Directly</h3>
-        <p>Skip the formalities — reach out on your preferred platform and I'll get back to you as soon as possible.</p>
+        <h3 data-i18n="contact_chat">Let's Chat Directly</h3>
+        <p data-i18n="contact_chat_desc">Skip the formalities — reach out on your preferred platform and I'll get back to you as soon as possible.</p>
         <div class="cta-buttons">
           <a href="https://wa.me/6281225538093?text=Hi%20Cahyo%2C%20I%27d%20like%20to%20discuss%20a%20project!" class="cta-btn cta-btn-wa" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            WhatsApp
+            <span data-i18n="contact_wa">WhatsApp</span>
           </a>
           <a href="https://t.me/nc0118aw" class="cta-btn cta-btn-tg" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-            Telegram
+            <span data-i18n="contact_tg">Telegram</span>
           </a>
         </div>
       </div>
@@ -928,7 +1065,7 @@
 <!-- Footer -->
 <footer class="footer">
   <div class="container">
-    <p>&copy; 2026 Cahyo. All rights reserved.</p>
+    <p data-i18n="footer">&copy; 2026 Cahyo. All rights reserved.</p>
   </div>
 </footer>
 
@@ -1118,6 +1255,269 @@
     btn.style.background = '#22c55e';
     setTimeout(() => { btn.textContent = 'Send Message'; btn.style.background = ''; e.target.reset(); }, 3000);
   }
+
+  // ── i18n Language Switching ──
+  const translations = {
+    en: {
+      nav_projects: 'Projects',
+      nav_services: 'Services',
+      nav_skills: 'Skills',
+      nav_about: 'About',
+      nav_cta: 'Get In Touch',
+      hero_badge: 'Available for new projects',
+      hero_greeting: "Hi, I'm Cahyo. I build ",
+      hero_highlight: 'modern web solutions',
+      hero_desc: "I'm a freelance web developer based in Indonesia, working with clients around the world. I turn ideas into real, working products that make a difference.",
+      hero_about: "I believe great work comes from clear communication, careful planning, and attention to detail. Whether you need a simple website or a complex application, I treat every project with the same level of care.",
+      hero_cta1: 'See My Work',
+      hero_cta2: 'Start a Project',
+      tag_design: 'Clean Design',
+      tag_delivery: 'Fast Delivery',
+      tag_comm: 'Clear Communication',
+      tag_support: 'Ongoing Support',
+      tag_remote: 'Remote Friendly',
+      stat_projects: 'Projects Delivered',
+      stat_clients: 'Happy Clients',
+      stat_years: 'Years Experience',
+      platforms_label: 'Also on:',
+      proj_label: 'Portfolio',
+      proj_title: 'Recent Work',
+      proj_desc: "Every project starts with a problem. Here's how I solved them.",
+      proj_num1: 'Project 01',
+      proj_num2: 'Project 02',
+      wh_title: 'WarisHub — Intelligent Inheritance Management',
+      wh_desc: 'SaaS platform for Malaysian legal professionals to automate inheritance cases — AI document processing, Faraid & Civil law calculations, family tree builder, and subscription billing.',
+      wh_r1: 'Document processing',
+      wh_r2: 'Case management',
+      wh_r3: 'Multi-tier billing',
+      tech_stack: 'Tech Stack',
+      visit_site: 'Visit Site ↗',
+      cp_title: 'Compounder — Track Money. Build Wealth.',
+      cp_desc: 'All-in-one personal finance app — track expenses, budgets, investments, multi-wallet balances, and emergency fund goals with real-time charts and WhatsApp notifications.',
+      cp_r1: 'Core modules',
+      cp_r2: 'Multi-currency',
+      cp_r3: 'Charts & insights',
+      svc_label: 'Services',
+      svc_title: 'What I Can Build For You',
+      svc_desc: 'End-to-end development — from idea to deployment.',
+      svc_web_title: 'Web Development',
+      svc_web_desc: 'Custom websites and web apps — from landing pages to complex platforms. Can integrate AI features like smart search, recommendations, and content generation.',
+      svc_chat_title: 'Chatbot Development',
+      svc_chat_desc: 'Intelligent chatbots for customer support, lead generation, or internal tools. Powered by modern AI with natural conversation flow.',
+      svc_mobile_title: 'Mobile Development',
+      svc_mobile_desc: 'Cross-platform mobile apps for iOS and Android. Clean UI, smooth performance, and seamless backend integration.',
+      pkg_title: 'Packages',
+      pkg_popular: 'Popular',
+      web_pkg1_name: 'Landing Page',
+      web_pkg1_desc: 'Single-page website with responsive design, contact form, and basic SEO setup.',
+      web_pkg1_price: 'From Rp 1.5M',
+      web_pkg1_dur: '5–7 days',
+      web_pkg1_rev: '2 revisions',
+      web_pkg2_name: 'Business Website',
+      web_pkg2_desc: 'Multi-page website with CMS, blog, analytics, and performance optimization.',
+      web_pkg2_price: 'From Rp 5M',
+      web_pkg2_dur: '2–3 weeks',
+      web_pkg2_rev: '3 revisions',
+      web_pkg3_name: 'Web Application',
+      web_pkg3_desc: 'Full-stack web app with auth, dashboard, database, API, and optional AI integration.',
+      web_pkg3_price: 'From Rp 15M',
+      web_pkg3_dur: '4–8 weeks',
+      web_pkg3_rev: '5 revisions',
+      chat_pkg1_name: 'Basic Bot',
+      chat_pkg1_desc: 'Rule-based chatbot with FAQ responses, WhatsApp or Telegram integration.',
+      chat_pkg1_price: 'From Rp 500K',
+      chat_pkg1_dur: '3–5 days',
+      chat_pkg1_rev: '2 revisions',
+      chat_pkg2_name: 'AI Assistant',
+      chat_pkg2_desc: 'AI-powered chatbot with natural conversation, context memory, and multi-platform deployment.',
+      chat_pkg2_price: 'From Rp 1M',
+      chat_pkg2_dur: '1–2 weeks',
+      chat_pkg2_rev: '3 revisions',
+      chat_pkg3_name: 'Enterprise Bot',
+      chat_pkg3_desc: 'Custom AI agent with knowledge base, CRM integration, analytics dashboard, and multi-language support.',
+      chat_pkg3_price: 'From Rp 2M',
+      chat_pkg3_dur: '2–3 weeks',
+      chat_pkg3_rev: '5 revisions',
+      mob_pkg1_name: 'Simple App',
+      mob_pkg1_desc: 'Simple mobile app with core features, one platform (iOS or Android), and basic UI.',
+      mob_pkg1_price: 'From Rp 1.5M',
+      mob_pkg1_dur: '5–7 days',
+      mob_pkg1_rev: '2 revisions',
+      mob_pkg2_name: 'Standard App',
+      mob_pkg2_desc: 'iOS + Android app with polished UI, push notifications, auth, and backend API.',
+      mob_pkg2_price: 'From Rp 5M',
+      mob_pkg2_dur: '2–3 weeks',
+      mob_pkg2_rev: '3 revisions',
+      mob_pkg3_name: 'Full-Suite App',
+      mob_pkg3_desc: 'Complete mobile solution with admin panel, real-time features, payment integration, and app store deployment.',
+      mob_pkg3_price: 'From Rp 15M',
+      mob_pkg3_dur: '4–8 weeks',
+      mob_pkg3_rev: '5 revisions',
+      skills_label: 'Expertise',
+      skills_title: 'What I Work With',
+      skills_desc: 'The tools and technologies I use to bring projects to life.',
+      skills_fe: 'Frontend',
+      skills_be: 'Backend',
+      skills_db: 'Database & Cloud',
+      skills_tools: 'Tools',
+      contact_label: 'Contact',
+      contact_title: "Let's Work Together",
+      contact_desc: "Have a project in mind? I'd love to hear about it. Drop me a message and let's get started.",
+      contact_reach: 'Reach Out',
+      contact_email_label: 'Email',
+      contact_loc_label: 'Location',
+      contact_loc_val: 'Indonesia (Available Worldwide)',
+      contact_hours_label: 'Hours',
+      contact_hours_val: 'Mon – Sat, 9 AM – 6 PM WIB',
+      contact_chat: "Let's Chat Directly",
+      contact_chat_desc: "Skip the formalities — reach out on your preferred platform and I'll get back to you as soon as possible.",
+      contact_wa: 'WhatsApp',
+      contact_tg: 'Telegram',
+      footer: '© 2026 Cahyo. All rights reserved.'
+    },
+    id: {
+      nav_projects: 'Proyek',
+      nav_services: 'Layanan',
+      nav_skills: 'Keahlian',
+      nav_about: 'Tentang',
+      nav_cta: 'Hubungi Saya',
+      hero_badge: 'Terbuka untuk proyek baru',
+      hero_greeting: 'Hai, saya Cahyo. Saya membangun ',
+      hero_highlight: 'solusi web modern',
+      hero_desc: 'Saya freelance web developer dari Indonesia yang bekerja sama dengan klien dari berbagai negara. Saya mengubah ide menjadi produk nyata yang benar-benar bisa diandalkan.',
+      hero_about: 'Saya percaya hasil terbaik datang dari komunikasi yang jelas, perencanaan matang, dan perhatian pada detail. Baik itu website sederhana maupun aplikasi kompleks, setiap proyek saya tangani dengan dedikasi yang sama.',
+      hero_cta1: 'Lihat Karya Saya',
+      hero_cta2: 'Mulai Proyek',
+      tag_design: 'Desain Bersih',
+      tag_delivery: 'Pengerjaan Cepat',
+      tag_comm: 'Komunikasi Jelas',
+      tag_support: 'Support Berkelanjutan',
+      tag_remote: 'Remote Friendly',
+      stat_projects: 'Proyek Selesai',
+      stat_clients: 'Klien Puas',
+      stat_years: 'Tahun Pengalaman',
+      platforms_label: 'Juga di:',
+      proj_label: 'Portofolio',
+      proj_title: 'Proyek Terbaru',
+      proj_desc: 'Setiap proyek dimulai dari sebuah masalah. Berikut cara saya menyelesaikannya.',
+      proj_num1: 'Proyek 01',
+      proj_num2: 'Proyek 02',
+      wh_title: 'WarisHub — Manajemen Warisan Cerdas',
+      wh_desc: 'Platform SaaS untuk profesional hukum di Malaysia — otomasi kasus warisan dengan AI, kalkulasi hukum Faraid & Sipil, pembuat silsilah keluarga, dan sistem billing langganan.',
+      wh_r1: 'Pemrosesan dokumen',
+      wh_r2: 'Manajemen kasus',
+      wh_r3: 'Billing multi-tier',
+      tech_stack: 'Tech Stack',
+      visit_site: 'Kunjungi Situs ↗',
+      cp_title: 'Compounder — Kelola Uang. Bangun Kekayaan.',
+      cp_desc: 'Aplikasi keuangan pribadi all-in-one — lacak pengeluaran, budget, investasi, saldo multi-wallet, dan target dana darurat dengan grafik real-time serta notifikasi WhatsApp.',
+      cp_r1: 'Modul utama',
+      cp_r2: 'Multi-mata uang',
+      cp_r3: 'Grafik & insight',
+      svc_label: 'Layanan',
+      svc_title: 'Yang Bisa Saya Bangun untuk Anda',
+      svc_desc: 'Development end-to-end — dari ide sampai deployment.',
+      svc_web_title: 'Web Development',
+      svc_web_desc: 'Website dan web app custom — dari landing page hingga platform kompleks. Bisa diintegrasikan dengan fitur AI seperti smart search, rekomendasi, dan content generation.',
+      svc_chat_title: 'Chatbot Development',
+      svc_chat_desc: 'Chatbot cerdas untuk customer support, lead generation, atau tools internal. Didukung AI modern dengan alur percakapan yang natural.',
+      svc_mobile_title: 'Mobile Development',
+      svc_mobile_desc: 'Aplikasi mobile cross-platform untuk iOS dan Android. UI bersih, performa lancar, dan integrasi backend yang seamless.',
+      pkg_title: 'Paket Layanan',
+      pkg_popular: 'Populer',
+      web_pkg1_name: 'Landing Page',
+      web_pkg1_desc: 'Website satu halaman dengan desain responsif, form kontak, dan setup SEO dasar.',
+      web_pkg1_price: 'Mulai Rp 1,5 Juta',
+      web_pkg1_dur: '5–7 hari',
+      web_pkg1_rev: '2x revisi',
+      web_pkg2_name: 'Website Bisnis',
+      web_pkg2_desc: 'Website multi-halaman dengan CMS, blog, analytics, dan optimasi performa.',
+      web_pkg2_price: 'Mulai Rp 5 Juta',
+      web_pkg2_dur: '2–3 minggu',
+      web_pkg2_rev: '3x revisi',
+      web_pkg3_name: 'Aplikasi Web',
+      web_pkg3_desc: 'Web app full-stack dengan auth, dashboard, database, API, dan opsional integrasi AI.',
+      web_pkg3_price: 'Mulai Rp 15 Juta',
+      web_pkg3_dur: '4–8 minggu',
+      web_pkg3_rev: '5x revisi',
+      chat_pkg1_name: 'Bot Dasar',
+      chat_pkg1_desc: 'Chatbot berbasis aturan dengan respons FAQ, integrasi WhatsApp atau Telegram.',
+      chat_pkg1_price: 'Mulai Rp 500 Ribu',
+      chat_pkg1_dur: '3–5 hari',
+      chat_pkg1_rev: '2x revisi',
+      chat_pkg2_name: 'AI Assistant',
+      chat_pkg2_desc: 'Chatbot berbasis AI dengan percakapan natural, memori konteks, dan deployment multi-platform.',
+      chat_pkg2_price: 'Mulai Rp 1 Juta',
+      chat_pkg2_dur: '1–2 minggu',
+      chat_pkg2_rev: '3x revisi',
+      chat_pkg3_name: 'Bot Enterprise',
+      chat_pkg3_desc: 'AI agent custom dengan knowledge base, integrasi CRM, dashboard analytics, dan dukungan multi-bahasa.',
+      chat_pkg3_price: 'Mulai Rp 2 Juta',
+      chat_pkg3_dur: '2–3 minggu',
+      chat_pkg3_rev: '5x revisi',
+      mob_pkg1_name: 'Aplikasi Simpel',
+      mob_pkg1_desc: 'Aplikasi mobile sederhana dengan fitur inti, satu platform (iOS atau Android), dan UI dasar.',
+      mob_pkg1_price: 'Mulai Rp 1,5 Juta',
+      mob_pkg1_dur: '5–7 hari',
+      mob_pkg1_rev: '2x revisi',
+      mob_pkg2_name: 'Aplikasi Standar',
+      mob_pkg2_desc: 'Aplikasi iOS + Android dengan UI modern, push notification, auth, dan backend API.',
+      mob_pkg2_price: 'Mulai Rp 5 Juta',
+      mob_pkg2_dur: '2–3 minggu',
+      mob_pkg2_rev: '3x revisi',
+      mob_pkg3_name: 'Aplikasi Lengkap',
+      mob_pkg3_desc: 'Solusi mobile lengkap dengan admin panel, fitur real-time, integrasi pembayaran, dan deployment ke app store.',
+      mob_pkg3_price: 'Mulai Rp 15 Juta',
+      mob_pkg3_dur: '4–8 minggu',
+      mob_pkg3_rev: '5x revisi',
+      skills_label: 'Keahlian',
+      skills_title: 'Tools yang Saya Gunakan',
+      skills_desc: 'Teknologi dan tools yang saya pakai untuk mengerjakan proyek.',
+      skills_fe: 'Frontend',
+      skills_be: 'Backend',
+      skills_db: 'Database & Cloud',
+      skills_tools: 'Tools',
+      contact_label: 'Kontak',
+      contact_title: 'Yuk, Kerja Sama',
+      contact_desc: 'Punya ide proyek? Saya senang mendengar ceritanya. Langsung hubungi saya dan mari kita mulai.',
+      contact_reach: 'Hubungi Saya',
+      contact_email_label: 'Email',
+      contact_loc_label: 'Lokasi',
+      contact_loc_val: 'Indonesia (Tersedia Remote)',
+      contact_hours_label: 'Jam Kerja',
+      contact_hours_val: 'Senin – Sabtu, 09.00 – 18.00 WIB',
+      contact_chat: 'Chat Langsung Saja',
+      contact_chat_desc: 'Tidak perlu terlalu formal — langsung hubungi saya di platform yang Anda suka, pasti saya balas secepatnya.',
+      contact_wa: 'WhatsApp',
+      contact_tg: 'Telegram',
+      footer: '© 2026 Cahyo. Semua hak dilindungi.'
+    }
+  };
+
+  let currentLang = localStorage.getItem('lang') || 'en';
+
+  function setLang(lang) {
+    currentLang = lang;
+    localStorage.setItem('lang', lang);
+    document.documentElement.lang = lang;
+    const t = translations[lang];
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (t[key] !== undefined) el.textContent = t[key];
+    });
+    // Update active button
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+  }
+
+  // Language switch event
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => setLang(btn.dataset.lang));
+  });
+
+  // Apply saved language on load
+  if (currentLang !== 'en') setLang(currentLang);
 </script>
 
 </body>
