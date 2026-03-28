@@ -381,8 +381,8 @@
       border-radius: var(--radius); overflow: hidden; transition: all var(--transition);
     }
     .service-card:hover { border-color: var(--accent); box-shadow: var(--shadow); transform: translateY(-3px); }
-    .service-cover { aspect-ratio: 16/9; position: relative; overflow: hidden; }
-    .service-cover img { width: 100%; height: 100%; object-fit: cover; }
+    .service-cover { position: relative; overflow: hidden; }
+    .service-cover .carousel { aspect-ratio: 16/9; }
     .service-body { padding: 24px; }
     .service-icon { font-size: 1.8rem; margin-bottom: 16px; }
     .service-card h3 { font-size: 1.02rem; font-weight: 600; margin-bottom: 8px; }
@@ -405,8 +405,11 @@
     .pkg-meta { display: flex; flex-wrap: wrap; gap: 8px; }
     .pkg-meta-item { display: inline-flex; align-items: center; gap: 4px; font-size: .72rem; font-weight: 600; color: var(--text-secondary); background: var(--warm); padding: 3px 10px; border-radius: 100px; }
     .pkg-meta-item.price { color: var(--accent); background: var(--accent-soft); font-weight: 700; }
-    .pkg-features { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
-    .pkg-feat { font-size: .68rem; color: var(--text-secondary); padding: 2px 8px; background: var(--bg); border-radius: 100px; }
+    .pkg-gets { margin-bottom: 10px; }
+    .pkg-gets-label { font-size: .66rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--text-secondary); margin-bottom: 6px; }
+    .pkg-get { display: flex; align-items: flex-start; gap: 6px; font-size: .76rem; color: var(--text-secondary); line-height: 1.5; padding: 2px 0; }
+    .pkg-get::before { content: '✓'; color: var(--accent); font-weight: 700; font-size: .72rem; flex-shrink: 0; margin-top: 1px; }
+    .pkg.featured .pkg-get::before { color: var(--accent); }
 
     /* Skills */
     .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
@@ -830,7 +833,18 @@
     <div class="services-grid">
       <div class="service-card fade-in">
         <div class="service-cover">
-          <img src="images/service-web.png" alt="Web Development" />
+          <div class="carousel" data-carousel>
+            <div class="carousel-track">
+              <div class="carousel-slide" style="background:#1e293b;"><img src="images/service-web-1.png" alt="Web Development Overview" /><span class="placeholder-label" data-i18n="sweb_s1">Overview</span></div>
+              <div class="carousel-slide" style="background:#1e293b;"><img src="images/service-web-2.png" alt="Frontend Tech Stack" /><span class="placeholder-label" data-i18n="sweb_s2">Frontend Stack</span></div>
+              <div class="carousel-slide" style="background:#1e293b;"><img src="images/service-web-3.png" alt="Backend Tech Stack" /><span class="placeholder-label" data-i18n="sweb_s3">Backend Stack</span></div>
+              <div class="carousel-slide" style="background:#1e293b;"><img src="images/service-web-4.png" alt="Web Development Benefits" /><span class="placeholder-label" data-i18n="sweb_s4">Benefits</span></div>
+              <div class="carousel-slide" style="background:#1e293b;"><img src="images/service-web-5.png" alt="AI Features" /><span class="placeholder-label" data-i18n="sweb_s5">AI Features</span></div>
+            </div>
+            <button class="carousel-btn prev" aria-label="Previous">&#8249;</button>
+            <button class="carousel-btn next" aria-label="Next">&#8250;</button>
+            <div class="carousel-dots"></div>
+          </div>
         </div>
         <div class="service-body">
           <h3 data-i18n="svc_web_title">Web Development</h3>
@@ -841,11 +855,14 @@
             <div class="pkg">
               <div class="pkg-header"><span class="pkg-name" data-i18n="web_pkg1_name">Starter</span></div>
               <div class="pkg-desc" data-i18n="web_pkg1_desc">Up to 3 entities — ideal for landing pages, company profiles, or simple CRUD apps.</div>
-              <div class="pkg-features">
-                <span class="pkg-feat" data-i18n="web_pkg1_f1">Up to 3 entities</span>
-                <span class="pkg-feat" data-i18n="web_pkg1_f2">Responsive design</span>
-                <span class="pkg-feat" data-i18n="web_pkg1_f3">Basic SEO</span>
-                <span class="pkg-feat" data-i18n="web_pkg1_f4">Contact form</span>
+              <div class="pkg-gets">
+                <div class="pkg-gets-label" data-i18n="pkg_gets">What you get</div>
+                <div class="pkg-get" data-i18n="web_pkg1_g1">Responsive website (up to 5 pages)</div>
+                <div class="pkg-get" data-i18n="web_pkg1_g2">Up to 3 data entities / models</div>
+                <div class="pkg-get" data-i18n="web_pkg1_g3">Contact form with email notification</div>
+                <div class="pkg-get" data-i18n="web_pkg1_g4">Basic SEO & meta tags setup</div>
+                <div class="pkg-get" data-i18n="web_pkg1_g5">Source code & deployment</div>
+                <div class="pkg-get" data-i18n="web_pkg1_g6">1 month free bug-fix support</div>
               </div>
               <div class="pkg-meta">
                 <span class="pkg-meta-item price" data-i18n="web_pkg1_price">From Rp 1.5M</span>
@@ -856,12 +873,16 @@
             <div class="pkg featured">
               <div class="pkg-header"><span class="pkg-name" data-i18n="web_pkg2_name">Professional</span><span class="pkg-badge" data-i18n="pkg_popular">Popular</span></div>
               <div class="pkg-desc" data-i18n="web_pkg2_desc">Up to 10 entities — for business platforms with auth, roles, dashboard, and file uploads.</div>
-              <div class="pkg-features">
-                <span class="pkg-feat" data-i18n="web_pkg2_f1">Up to 10 entities</span>
-                <span class="pkg-feat" data-i18n="web_pkg2_f2">Auth & roles</span>
-                <span class="pkg-feat" data-i18n="web_pkg2_f3">Admin dashboard</span>
-                <span class="pkg-feat" data-i18n="web_pkg2_f4">File upload</span>
-                <span class="pkg-feat" data-i18n="web_pkg2_f5">API integration</span>
+              <div class="pkg-gets">
+                <div class="pkg-gets-label" data-i18n="pkg_gets">What you get</div>
+                <div class="pkg-get" data-i18n="web_pkg2_g1">Full website or web app (unlimited pages)</div>
+                <div class="pkg-get" data-i18n="web_pkg2_g2">Up to 10 data entities / models</div>
+                <div class="pkg-get" data-i18n="web_pkg2_g3">Auth system with user roles</div>
+                <div class="pkg-get" data-i18n="web_pkg2_g4">Admin dashboard & CRUD panel</div>
+                <div class="pkg-get" data-i18n="web_pkg2_g5">File upload & storage</div>
+                <div class="pkg-get" data-i18n="web_pkg2_g6">REST API + documentation</div>
+                <div class="pkg-get" data-i18n="web_pkg2_g7">Source code, deployment & CI/CD</div>
+                <div class="pkg-get" data-i18n="web_pkg2_g8">2 months free bug-fix support</div>
               </div>
               <div class="pkg-meta">
                 <span class="pkg-meta-item price" data-i18n="web_pkg2_price">From Rp 5M</span>
@@ -872,13 +893,16 @@
             <div class="pkg">
               <div class="pkg-header"><span class="pkg-name" data-i18n="web_pkg3_name">Advanced</span></div>
               <div class="pkg-desc" data-i18n="web_pkg3_desc">10+ entities — complex systems with AI features, real-time data, payment, and third-party integrations.</div>
-              <div class="pkg-features">
-                <span class="pkg-feat" data-i18n="web_pkg3_f1">10+ entities</span>
-                <span class="pkg-feat" data-i18n="web_pkg3_f2">AI integration</span>
-                <span class="pkg-feat" data-i18n="web_pkg3_f3">Real-time features</span>
-                <span class="pkg-feat" data-i18n="web_pkg3_f4">Payment gateway</span>
-                <span class="pkg-feat" data-i18n="web_pkg3_f5">3rd-party APIs</span>
-                <span class="pkg-feat" data-i18n="web_pkg3_f6">Advanced analytics</span>
+              <div class="pkg-gets">
+                <div class="pkg-gets-label" data-i18n="pkg_gets">What you get</div>
+                <div class="pkg-get" data-i18n="web_pkg3_g1">Everything in Professional</div>
+                <div class="pkg-get" data-i18n="web_pkg3_g2">10+ data entities / models</div>
+                <div class="pkg-get" data-i18n="web_pkg3_g3">AI features (smart search, recommendations, etc.)</div>
+                <div class="pkg-get" data-i18n="web_pkg3_g4">Real-time features (WebSocket / live updates)</div>
+                <div class="pkg-get" data-i18n="web_pkg3_g5">Payment gateway integration</div>
+                <div class="pkg-get" data-i18n="web_pkg3_g6">3rd-party API integrations</div>
+                <div class="pkg-get" data-i18n="web_pkg3_g7">Analytics dashboard & reporting</div>
+                <div class="pkg-get" data-i18n="web_pkg3_g8">3 months free bug-fix support</div>
               </div>
               <div class="pkg-meta">
                 <span class="pkg-meta-item price" data-i18n="web_pkg3_price">From Rp 15M</span>
@@ -891,7 +915,17 @@
       </div>
       <div class="service-card fade-in">
         <div class="service-cover">
-          <img src="images/service-chatbot.png" alt="Chatbot Development" />
+          <div class="carousel" data-carousel>
+            <div class="carousel-track">
+              <div class="carousel-slide" style="background:#1e293b;"><img src="images/service-chat-1.png" alt="Chatbot Overview" /><span class="placeholder-label" data-i18n="schat_s1">Overview</span></div>
+              <div class="carousel-slide" style="background:#1e293b;"><img src="images/service-chat-2.png" alt="Chatbot Platforms" /><span class="placeholder-label" data-i18n="schat_s2">Platforms</span></div>
+              <div class="carousel-slide" style="background:#1e293b;"><img src="images/service-chat-3.png" alt="AI Tech Stack" /><span class="placeholder-label" data-i18n="schat_s3">AI Stack</span></div>
+              <div class="carousel-slide" style="background:#1e293b;"><img src="images/service-chat-4.png" alt="Chatbot Benefits" /><span class="placeholder-label" data-i18n="schat_s4">Benefits</span></div>
+            </div>
+            <button class="carousel-btn prev" aria-label="Previous">&#8249;</button>
+            <button class="carousel-btn next" aria-label="Next">&#8250;</button>
+            <div class="carousel-dots"></div>
+          </div>
         </div>
         <div class="service-body">
           <h3 data-i18n="svc_chat_title">Chatbot Development</h3>
@@ -902,11 +936,14 @@
             <div class="pkg">
               <div class="pkg-header"><span class="pkg-name" data-i18n="chat_pkg1_name">Starter</span></div>
               <div class="pkg-desc" data-i18n="chat_pkg1_desc">Rule-based bot with up to 10 intents — great for FAQ, auto-replies, and simple flows.</div>
-              <div class="pkg-features">
-                <span class="pkg-feat" data-i18n="chat_pkg1_f1">Up to 10 intents</span>
-                <span class="pkg-feat" data-i18n="chat_pkg1_f2">1 platform (WA/TG)</span>
-                <span class="pkg-feat" data-i18n="chat_pkg1_f3">FAQ responses</span>
-                <span class="pkg-feat" data-i18n="chat_pkg1_f4">Button menus</span>
+              <div class="pkg-gets">
+                <div class="pkg-gets-label" data-i18n="pkg_gets">What you get</div>
+                <div class="pkg-get" data-i18n="chat_pkg1_g1">Bot on 1 platform (WhatsApp or Telegram)</div>
+                <div class="pkg-get" data-i18n="chat_pkg1_g2">Up to 10 conversation intents</div>
+                <div class="pkg-get" data-i18n="chat_pkg1_g3">FAQ auto-reply & button menus</div>
+                <div class="pkg-get" data-i18n="chat_pkg1_g4">Basic greeting & fallback flows</div>
+                <div class="pkg-get" data-i18n="chat_pkg1_g5">Setup & deployment guide</div>
+                <div class="pkg-get" data-i18n="chat_pkg1_g6">1 month free bug-fix support</div>
               </div>
               <div class="pkg-meta">
                 <span class="pkg-meta-item price" data-i18n="chat_pkg1_price">From Rp 500K</span>
@@ -917,12 +954,15 @@
             <div class="pkg featured">
               <div class="pkg-header"><span class="pkg-name" data-i18n="chat_pkg2_name">Smart Bot</span><span class="pkg-badge" data-i18n="pkg_popular">Popular</span></div>
               <div class="pkg-desc" data-i18n="chat_pkg2_desc">AI-powered bot with up to 25 intents — natural conversation, context memory, and multi-platform.</div>
-              <div class="pkg-features">
-                <span class="pkg-feat" data-i18n="chat_pkg2_f1">Up to 25 intents</span>
-                <span class="pkg-feat" data-i18n="chat_pkg2_f2">AI conversation</span>
-                <span class="pkg-feat" data-i18n="chat_pkg2_f3">Context memory</span>
-                <span class="pkg-feat" data-i18n="chat_pkg2_f4">Multi-platform</span>
-                <span class="pkg-feat" data-i18n="chat_pkg2_f5">Webhook integration</span>
+              <div class="pkg-gets">
+                <div class="pkg-gets-label" data-i18n="pkg_gets">What you get</div>
+                <div class="pkg-get" data-i18n="chat_pkg2_g1">Bot on multiple platforms (WA, TG, web chat)</div>
+                <div class="pkg-get" data-i18n="chat_pkg2_g2">Up to 25 intents with AI conversation</div>
+                <div class="pkg-get" data-i18n="chat_pkg2_g3">Context memory (remembers past messages)</div>
+                <div class="pkg-get" data-i18n="chat_pkg2_g4">Webhook integration to your systems</div>
+                <div class="pkg-get" data-i18n="chat_pkg2_g5">Conversation logs & basic analytics</div>
+                <div class="pkg-get" data-i18n="chat_pkg2_g6">Source code & deployment</div>
+                <div class="pkg-get" data-i18n="chat_pkg2_g7">2 months free bug-fix support</div>
               </div>
               <div class="pkg-meta">
                 <span class="pkg-meta-item price" data-i18n="chat_pkg2_price">From Rp 1M</span>
@@ -933,12 +973,15 @@
             <div class="pkg">
               <div class="pkg-header"><span class="pkg-name" data-i18n="chat_pkg3_name">Advanced</span></div>
               <div class="pkg-desc" data-i18n="chat_pkg3_desc">Full AI agent with unlimited intents — knowledge base, CRM sync, analytics, and multi-language.</div>
-              <div class="pkg-features">
-                <span class="pkg-feat" data-i18n="chat_pkg3_f1">Unlimited intents</span>
-                <span class="pkg-feat" data-i18n="chat_pkg3_f2">Knowledge base / RAG</span>
-                <span class="pkg-feat" data-i18n="chat_pkg3_f3">CRM integration</span>
-                <span class="pkg-feat" data-i18n="chat_pkg3_f4">Analytics dashboard</span>
-                <span class="pkg-feat" data-i18n="chat_pkg3_f5">Multi-language</span>
+              <div class="pkg-gets">
+                <div class="pkg-gets-label" data-i18n="pkg_gets">What you get</div>
+                <div class="pkg-get" data-i18n="chat_pkg3_g1">Everything in Smart Bot</div>
+                <div class="pkg-get" data-i18n="chat_pkg3_g2">Unlimited intents & conversation flows</div>
+                <div class="pkg-get" data-i18n="chat_pkg3_g3">Knowledge base / RAG from your docs</div>
+                <div class="pkg-get" data-i18n="chat_pkg3_g4">CRM & database integration</div>
+                <div class="pkg-get" data-i18n="chat_pkg3_g5">Analytics dashboard & reporting</div>
+                <div class="pkg-get" data-i18n="chat_pkg3_g6">Multi-language support</div>
+                <div class="pkg-get" data-i18n="chat_pkg3_g7">3 months free bug-fix support</div>
               </div>
               <div class="pkg-meta">
                 <span class="pkg-meta-item price" data-i18n="chat_pkg3_price">From Rp 2M</span>
@@ -951,7 +994,17 @@
       </div>
       <div class="service-card fade-in">
         <div class="service-cover">
-          <img src="images/service-mobile.png" alt="Mobile Development" />
+          <div class="carousel" data-carousel>
+            <div class="carousel-track">
+              <div class="carousel-slide" style="background:#1e293b;"><img src="images/service-mob-1.png" alt="Mobile Development Overview" /><span class="placeholder-label" data-i18n="smob_s1">Overview</span></div>
+              <div class="carousel-slide" style="background:#1e293b;"><img src="images/service-mob-2.png" alt="Mobile Tech Stack" /><span class="placeholder-label" data-i18n="smob_s2">Tech Stack</span></div>
+              <div class="carousel-slide" style="background:#1e293b;"><img src="images/service-mob-3.png" alt="Mobile Benefits" /><span class="placeholder-label" data-i18n="smob_s3">Benefits</span></div>
+              <div class="carousel-slide" style="background:#1e293b;"><img src="images/service-mob-4.png" alt="Advanced Features" /><span class="placeholder-label" data-i18n="smob_s4">Advanced</span></div>
+            </div>
+            <button class="carousel-btn prev" aria-label="Previous">&#8249;</button>
+            <button class="carousel-btn next" aria-label="Next">&#8250;</button>
+            <div class="carousel-dots"></div>
+          </div>
         </div>
         <div class="service-body">
           <h3 data-i18n="svc_mobile_title">Mobile Development</h3>
@@ -962,11 +1015,14 @@
             <div class="pkg">
               <div class="pkg-header"><span class="pkg-name" data-i18n="mob_pkg1_name">Starter</span></div>
               <div class="pkg-desc" data-i18n="mob_pkg1_desc">Up to 3 entities — simple app with core screens, one platform (iOS or Android).</div>
-              <div class="pkg-features">
-                <span class="pkg-feat" data-i18n="mob_pkg1_f1">Up to 3 entities</span>
-                <span class="pkg-feat" data-i18n="mob_pkg1_f2">1 platform</span>
-                <span class="pkg-feat" data-i18n="mob_pkg1_f3">Basic UI</span>
-                <span class="pkg-feat" data-i18n="mob_pkg1_f4">Local storage</span>
+              <div class="pkg-gets">
+                <div class="pkg-gets-label" data-i18n="pkg_gets">What you get</div>
+                <div class="pkg-get" data-i18n="mob_pkg1_g1">App on 1 platform (iOS or Android)</div>
+                <div class="pkg-get" data-i18n="mob_pkg1_g2">Up to 3 data entities / models</div>
+                <div class="pkg-get" data-i18n="mob_pkg1_g3">Up to 5 core screens</div>
+                <div class="pkg-get" data-i18n="mob_pkg1_g4">Local data storage</div>
+                <div class="pkg-get" data-i18n="mob_pkg1_g5">Source code & build file</div>
+                <div class="pkg-get" data-i18n="mob_pkg1_g6">1 month free bug-fix support</div>
               </div>
               <div class="pkg-meta">
                 <span class="pkg-meta-item price" data-i18n="mob_pkg1_price">From Rp 1.5M</span>
@@ -977,12 +1033,15 @@
             <div class="pkg featured">
               <div class="pkg-header"><span class="pkg-name" data-i18n="mob_pkg2_name">Professional</span><span class="pkg-badge" data-i18n="pkg_popular">Popular</span></div>
               <div class="pkg-desc" data-i18n="mob_pkg2_desc">Up to 10 entities — iOS + Android with auth, push notifications, and backend API.</div>
-              <div class="pkg-features">
-                <span class="pkg-feat" data-i18n="mob_pkg2_f1">Up to 10 entities</span>
-                <span class="pkg-feat" data-i18n="mob_pkg2_f2">iOS + Android</span>
-                <span class="pkg-feat" data-i18n="mob_pkg2_f3">Auth & profiles</span>
-                <span class="pkg-feat" data-i18n="mob_pkg2_f4">Push notifications</span>
-                <span class="pkg-feat" data-i18n="mob_pkg2_f5">Backend API</span>
+              <div class="pkg-gets">
+                <div class="pkg-gets-label" data-i18n="pkg_gets">What you get</div>
+                <div class="pkg-get" data-i18n="mob_pkg2_g1">App on iOS + Android</div>
+                <div class="pkg-get" data-i18n="mob_pkg2_g2">Up to 10 data entities / models</div>
+                <div class="pkg-get" data-i18n="mob_pkg2_g3">Auth system & user profiles</div>
+                <div class="pkg-get" data-i18n="mob_pkg2_g4">Push notifications</div>
+                <div class="pkg-get" data-i18n="mob_pkg2_g5">Backend API & database</div>
+                <div class="pkg-get" data-i18n="mob_pkg2_g6">Source code & deployment</div>
+                <div class="pkg-get" data-i18n="mob_pkg2_g7">2 months free bug-fix support</div>
               </div>
               <div class="pkg-meta">
                 <span class="pkg-meta-item price" data-i18n="mob_pkg2_price">From Rp 5M</span>
@@ -993,13 +1052,16 @@
             <div class="pkg">
               <div class="pkg-header"><span class="pkg-name" data-i18n="mob_pkg3_name">Advanced</span></div>
               <div class="pkg-desc" data-i18n="mob_pkg3_desc">10+ entities — full solution with real-time features, payment, admin panel, and app store deployment.</div>
-              <div class="pkg-features">
-                <span class="pkg-feat" data-i18n="mob_pkg3_f1">10+ entities</span>
-                <span class="pkg-feat" data-i18n="mob_pkg3_f2">Real-time sync</span>
-                <span class="pkg-feat" data-i18n="mob_pkg3_f3">Payment integration</span>
-                <span class="pkg-feat" data-i18n="mob_pkg3_f4">Admin panel</span>
-                <span class="pkg-feat" data-i18n="mob_pkg3_f5">App store deploy</span>
-                <span class="pkg-feat" data-i18n="mob_pkg3_f6">Analytics</span>
+              <div class="pkg-gets">
+                <div class="pkg-gets-label" data-i18n="pkg_gets">What you get</div>
+                <div class="pkg-get" data-i18n="mob_pkg3_g1">Everything in Professional</div>
+                <div class="pkg-get" data-i18n="mob_pkg3_g2">10+ data entities / models</div>
+                <div class="pkg-get" data-i18n="mob_pkg3_g3">Real-time sync & live updates</div>
+                <div class="pkg-get" data-i18n="mob_pkg3_g4">Payment gateway integration</div>
+                <div class="pkg-get" data-i18n="mob_pkg3_g5">Admin panel (web-based)</div>
+                <div class="pkg-get" data-i18n="mob_pkg3_g6">App Store & Play Store deployment</div>
+                <div class="pkg-get" data-i18n="mob_pkg3_g7">Analytics & crash reporting</div>
+                <div class="pkg-get" data-i18n="mob_pkg3_g8">3 months free bug-fix support</div>
               </div>
               <div class="pkg-meta">
                 <span class="pkg-meta-item price" data-i18n="mob_pkg3_price">From Rp 15M</span>
@@ -1374,95 +1436,118 @@
       svc_mobile_desc: 'Cross-platform mobile apps for iOS and Android. Clean UI, smooth performance, and seamless backend integration.',
       pkg_title: 'Packages',
       pkg_popular: 'Popular',
+      pkg_gets: 'What you get',
       web_pkg1_name: 'Starter',
       web_pkg1_desc: 'Up to 3 entities — ideal for landing pages, company profiles, or simple CRUD apps.',
-      web_pkg1_f1: 'Up to 3 entities',
-      web_pkg1_f2: 'Responsive design',
-      web_pkg1_f3: 'Basic SEO',
-      web_pkg1_f4: 'Contact form',
+      web_pkg1_g1: 'Responsive website (up to 5 pages)',
+      web_pkg1_g2: 'Up to 3 data entities / models',
+      web_pkg1_g3: 'Contact form with email notification',
+      web_pkg1_g4: 'Basic SEO & meta tags setup',
+      web_pkg1_g5: 'Source code & deployment',
+      web_pkg1_g6: '1 month free bug-fix support',
       web_pkg1_price: 'From Rp 1.5M',
       web_pkg1_dur: '5–7 days',
       web_pkg1_rev: '2 revisions',
       web_pkg2_name: 'Professional',
       web_pkg2_desc: 'Up to 10 entities — for business platforms with auth, roles, dashboard, and file uploads.',
-      web_pkg2_f1: 'Up to 10 entities',
-      web_pkg2_f2: 'Auth & roles',
-      web_pkg2_f3: 'Admin dashboard',
-      web_pkg2_f4: 'File upload',
-      web_pkg2_f5: 'API integration',
+      web_pkg2_g1: 'Full website or web app (unlimited pages)',
+      web_pkg2_g2: 'Up to 10 data entities / models',
+      web_pkg2_g3: 'Auth system with user roles',
+      web_pkg2_g4: 'Admin dashboard & CRUD panel',
+      web_pkg2_g5: 'File upload & storage',
+      web_pkg2_g6: 'REST API + documentation',
+      web_pkg2_g7: 'Source code, deployment & CI/CD',
+      web_pkg2_g8: '2 months free bug-fix support',
       web_pkg2_price: 'From Rp 5M',
       web_pkg2_dur: '2–4 weeks',
       web_pkg2_rev: '3 revisions',
       web_pkg3_name: 'Advanced',
       web_pkg3_desc: '10+ entities — complex systems with AI features, real-time data, payment, and third-party integrations.',
-      web_pkg3_f1: '10+ entities',
-      web_pkg3_f2: 'AI integration',
-      web_pkg3_f3: 'Real-time features',
-      web_pkg3_f4: 'Payment gateway',
-      web_pkg3_f5: '3rd-party APIs',
-      web_pkg3_f6: 'Advanced analytics',
+      web_pkg3_g1: 'Everything in Professional',
+      web_pkg3_g2: '10+ data entities / models',
+      web_pkg3_g3: 'AI features (smart search, recommendations, etc.)',
+      web_pkg3_g4: 'Real-time features (WebSocket / live updates)',
+      web_pkg3_g5: 'Payment gateway integration',
+      web_pkg3_g6: '3rd-party API integrations',
+      web_pkg3_g7: 'Analytics dashboard & reporting',
+      web_pkg3_g8: '3 months free bug-fix support',
       web_pkg3_price: 'From Rp 15M',
       web_pkg3_dur: '4–8 weeks',
       web_pkg3_rev: '5 revisions',
       chat_pkg1_name: 'Starter',
       chat_pkg1_desc: 'Rule-based bot with up to 10 intents — great for FAQ, auto-replies, and simple flows.',
-      chat_pkg1_f1: 'Up to 10 intents',
-      chat_pkg1_f2: '1 platform (WA/TG)',
-      chat_pkg1_f3: 'FAQ responses',
-      chat_pkg1_f4: 'Button menus',
+      chat_pkg1_g1: 'Bot on 1 platform (WhatsApp or Telegram)',
+      chat_pkg1_g2: 'Up to 10 conversation intents',
+      chat_pkg1_g3: 'FAQ auto-reply & button menus',
+      chat_pkg1_g4: 'Basic greeting & fallback flows',
+      chat_pkg1_g5: 'Setup & deployment guide',
+      chat_pkg1_g6: '1 month free bug-fix support',
       chat_pkg1_price: 'From Rp 500K',
       chat_pkg1_dur: '3–5 days',
       chat_pkg1_rev: '2 revisions',
       chat_pkg2_name: 'Smart Bot',
       chat_pkg2_desc: 'AI-powered bot with up to 25 intents — natural conversation, context memory, and multi-platform.',
-      chat_pkg2_f1: 'Up to 25 intents',
-      chat_pkg2_f2: 'AI conversation',
-      chat_pkg2_f3: 'Context memory',
-      chat_pkg2_f4: 'Multi-platform',
-      chat_pkg2_f5: 'Webhook integration',
+      chat_pkg2_g1: 'Bot on multiple platforms (WA, TG, web chat)',
+      chat_pkg2_g2: 'Up to 25 intents with AI conversation',
+      chat_pkg2_g3: 'Context memory (remembers past messages)',
+      chat_pkg2_g4: 'Webhook integration to your systems',
+      chat_pkg2_g5: 'Conversation logs & basic analytics',
+      chat_pkg2_g6: 'Source code & deployment',
+      chat_pkg2_g7: '2 months free bug-fix support',
       chat_pkg2_price: 'From Rp 1M',
       chat_pkg2_dur: '1–2 weeks',
       chat_pkg2_rev: '3 revisions',
       chat_pkg3_name: 'Advanced',
       chat_pkg3_desc: 'Full AI agent with unlimited intents — knowledge base, CRM sync, analytics, and multi-language.',
-      chat_pkg3_f1: 'Unlimited intents',
-      chat_pkg3_f2: 'Knowledge base / RAG',
-      chat_pkg3_f3: 'CRM integration',
-      chat_pkg3_f4: 'Analytics dashboard',
-      chat_pkg3_f5: 'Multi-language',
+      chat_pkg3_g1: 'Everything in Smart Bot',
+      chat_pkg3_g2: 'Unlimited intents & conversation flows',
+      chat_pkg3_g3: 'Knowledge base / RAG from your docs',
+      chat_pkg3_g4: 'CRM & database integration',
+      chat_pkg3_g5: 'Analytics dashboard & reporting',
+      chat_pkg3_g6: 'Multi-language support',
+      chat_pkg3_g7: '3 months free bug-fix support',
       chat_pkg3_price: 'From Rp 2M',
       chat_pkg3_dur: '2–3 weeks',
       chat_pkg3_rev: '5 revisions',
       mob_pkg1_name: 'Starter',
       mob_pkg1_desc: 'Up to 3 entities — simple app with core screens, one platform (iOS or Android).',
-      mob_pkg1_f1: 'Up to 3 entities',
-      mob_pkg1_f2: '1 platform',
-      mob_pkg1_f3: 'Basic UI',
-      mob_pkg1_f4: 'Local storage',
+      mob_pkg1_g1: 'App on 1 platform (iOS or Android)',
+      mob_pkg1_g2: 'Up to 3 data entities / models',
+      mob_pkg1_g3: 'Up to 5 core screens',
+      mob_pkg1_g4: 'Local data storage',
+      mob_pkg1_g5: 'Source code & build file',
+      mob_pkg1_g6: '1 month free bug-fix support',
       mob_pkg1_price: 'From Rp 1.5M',
       mob_pkg1_dur: '5–7 days',
       mob_pkg1_rev: '2 revisions',
       mob_pkg2_name: 'Professional',
       mob_pkg2_desc: 'Up to 10 entities — iOS + Android with auth, push notifications, and backend API.',
-      mob_pkg2_f1: 'Up to 10 entities',
-      mob_pkg2_f2: 'iOS + Android',
-      mob_pkg2_f3: 'Auth & profiles',
-      mob_pkg2_f4: 'Push notifications',
-      mob_pkg2_f5: 'Backend API',
+      mob_pkg2_g1: 'App on iOS + Android',
+      mob_pkg2_g2: 'Up to 10 data entities / models',
+      mob_pkg2_g3: 'Auth system & user profiles',
+      mob_pkg2_g4: 'Push notifications',
+      mob_pkg2_g5: 'Backend API & database',
+      mob_pkg2_g6: 'Source code & deployment',
+      mob_pkg2_g7: '2 months free bug-fix support',
       mob_pkg2_price: 'From Rp 5M',
       mob_pkg2_dur: '2–3 weeks',
       mob_pkg2_rev: '3 revisions',
       mob_pkg3_name: 'Advanced',
       mob_pkg3_desc: '10+ entities — full solution with real-time features, payment, admin panel, and app store deployment.',
-      mob_pkg3_f1: '10+ entities',
-      mob_pkg3_f2: 'Real-time sync',
-      mob_pkg3_f3: 'Payment integration',
-      mob_pkg3_f4: 'Admin panel',
-      mob_pkg3_f5: 'App store deploy',
-      mob_pkg3_f6: 'Analytics',
+      mob_pkg3_g1: 'Everything in Professional',
+      mob_pkg3_g2: '10+ data entities / models',
+      mob_pkg3_g3: 'Real-time sync & live updates',
+      mob_pkg3_g4: 'Payment gateway integration',
+      mob_pkg3_g5: 'Admin panel (web-based)',
+      mob_pkg3_g6: 'App Store & Play Store deployment',
+      mob_pkg3_g7: 'Analytics & crash reporting',
+      mob_pkg3_g8: '3 months free bug-fix support',
       mob_pkg3_price: 'From Rp 15M',
       mob_pkg3_dur: '4–8 weeks',
       mob_pkg3_rev: '5 revisions',
+      sweb_s1: 'Overview', sweb_s2: 'Frontend Stack', sweb_s3: 'Backend Stack', sweb_s4: 'Benefits', sweb_s5: 'AI Features',
+      schat_s1: 'Overview', schat_s2: 'Platforms', schat_s3: 'AI Stack', schat_s4: 'Benefits',
+      smob_s1: 'Overview', smob_s2: 'Tech Stack', smob_s3: 'Benefits', smob_s4: 'Advanced',
       skills_label: 'Expertise',
       skills_title: 'What I Work With',
       skills_desc: 'The tools and technologies I use to bring projects to life.',
@@ -1535,95 +1620,118 @@
       svc_mobile_desc: 'Aplikasi mobile cross-platform untuk iOS dan Android. UI bersih, performa lancar, dan integrasi backend yang seamless.',
       pkg_title: 'Paket Layanan',
       pkg_popular: 'Populer',
+      pkg_gets: 'Yang Anda dapatkan',
       web_pkg1_name: 'Starter',
       web_pkg1_desc: 'Hingga 3 entitas — cocok untuk landing page, profil perusahaan, atau aplikasi CRUD sederhana.',
-      web_pkg1_f1: 'Hingga 3 entitas',
-      web_pkg1_f2: 'Desain responsif',
-      web_pkg1_f3: 'SEO dasar',
-      web_pkg1_f4: 'Form kontak',
+      web_pkg1_g1: 'Website responsif (hingga 5 halaman)',
+      web_pkg1_g2: 'Hingga 3 entitas / model data',
+      web_pkg1_g3: 'Form kontak dengan notifikasi email',
+      web_pkg1_g4: 'Setup SEO dasar & meta tags',
+      web_pkg1_g5: 'Source code & deployment',
+      web_pkg1_g6: 'Gratis perbaikan bug 1 bulan',
       web_pkg1_price: 'Mulai Rp 1,5 Juta',
       web_pkg1_dur: '5–7 hari',
       web_pkg1_rev: '2x revisi',
       web_pkg2_name: 'Professional',
       web_pkg2_desc: 'Hingga 10 entitas — untuk platform bisnis dengan auth, role, dashboard, dan upload file.',
-      web_pkg2_f1: 'Hingga 10 entitas',
-      web_pkg2_f2: 'Auth & role',
-      web_pkg2_f3: 'Admin dashboard',
-      web_pkg2_f4: 'Upload file',
-      web_pkg2_f5: 'Integrasi API',
+      web_pkg2_g1: 'Website atau web app (halaman tak terbatas)',
+      web_pkg2_g2: 'Hingga 10 entitas / model data',
+      web_pkg2_g3: 'Sistem auth dengan role pengguna',
+      web_pkg2_g4: 'Admin dashboard & panel CRUD',
+      web_pkg2_g5: 'Upload & penyimpanan file',
+      web_pkg2_g6: 'REST API + dokumentasi',
+      web_pkg2_g7: 'Source code, deployment & CI/CD',
+      web_pkg2_g8: 'Gratis perbaikan bug 2 bulan',
       web_pkg2_price: 'Mulai Rp 5 Juta',
       web_pkg2_dur: '2–4 minggu',
       web_pkg2_rev: '3x revisi',
       web_pkg3_name: 'Advanced',
       web_pkg3_desc: '10+ entitas — sistem kompleks dengan fitur AI, data real-time, pembayaran, dan integrasi pihak ketiga.',
-      web_pkg3_f1: '10+ entitas',
-      web_pkg3_f2: 'Integrasi AI',
-      web_pkg3_f3: 'Fitur real-time',
-      web_pkg3_f4: 'Payment gateway',
-      web_pkg3_f5: 'API pihak ketiga',
-      web_pkg3_f6: 'Analytics lanjutan',
+      web_pkg3_g1: 'Semua yang ada di Professional',
+      web_pkg3_g2: '10+ entitas / model data',
+      web_pkg3_g3: 'Fitur AI (smart search, rekomendasi, dll.)',
+      web_pkg3_g4: 'Fitur real-time (WebSocket / live updates)',
+      web_pkg3_g5: 'Integrasi payment gateway',
+      web_pkg3_g6: 'Integrasi API pihak ketiga',
+      web_pkg3_g7: 'Dashboard analytics & laporan',
+      web_pkg3_g8: 'Gratis perbaikan bug 3 bulan',
       web_pkg3_price: 'Mulai Rp 15 Juta',
       web_pkg3_dur: '4–8 minggu',
       web_pkg3_rev: '5x revisi',
       chat_pkg1_name: 'Starter',
       chat_pkg1_desc: 'Bot berbasis aturan dengan hingga 10 intent — cocok untuk FAQ, auto-reply, dan flow sederhana.',
-      chat_pkg1_f1: 'Hingga 10 intent',
-      chat_pkg1_f2: '1 platform (WA/TG)',
-      chat_pkg1_f3: 'Respons FAQ',
-      chat_pkg1_f4: 'Menu tombol',
+      chat_pkg1_g1: 'Bot di 1 platform (WhatsApp atau Telegram)',
+      chat_pkg1_g2: 'Hingga 10 intent percakapan',
+      chat_pkg1_g3: 'Auto-reply FAQ & menu tombol',
+      chat_pkg1_g4: 'Flow sapaan & fallback dasar',
+      chat_pkg1_g5: 'Panduan setup & deployment',
+      chat_pkg1_g6: 'Gratis perbaikan bug 1 bulan',
       chat_pkg1_price: 'Mulai Rp 500 Ribu',
       chat_pkg1_dur: '3–5 hari',
       chat_pkg1_rev: '2x revisi',
       chat_pkg2_name: 'Smart Bot',
       chat_pkg2_desc: 'Bot berbasis AI dengan hingga 25 intent — percakapan natural, memori konteks, dan multi-platform.',
-      chat_pkg2_f1: 'Hingga 25 intent',
-      chat_pkg2_f2: 'Percakapan AI',
-      chat_pkg2_f3: 'Memori konteks',
-      chat_pkg2_f4: 'Multi-platform',
-      chat_pkg2_f5: 'Integrasi webhook',
+      chat_pkg2_g1: 'Bot di multi-platform (WA, TG, web chat)',
+      chat_pkg2_g2: 'Hingga 25 intent dengan percakapan AI',
+      chat_pkg2_g3: 'Memori konteks (mengingat pesan sebelumnya)',
+      chat_pkg2_g4: 'Integrasi webhook ke sistem Anda',
+      chat_pkg2_g5: 'Log percakapan & analytics dasar',
+      chat_pkg2_g6: 'Source code & deployment',
+      chat_pkg2_g7: 'Gratis perbaikan bug 2 bulan',
       chat_pkg2_price: 'Mulai Rp 1 Juta',
       chat_pkg2_dur: '1–2 minggu',
       chat_pkg2_rev: '3x revisi',
       chat_pkg3_name: 'Advanced',
       chat_pkg3_desc: 'AI agent penuh dengan intent tak terbatas — knowledge base, sinkronisasi CRM, analytics, dan multi-bahasa.',
-      chat_pkg3_f1: 'Intent tak terbatas',
-      chat_pkg3_f2: 'Knowledge base / RAG',
-      chat_pkg3_f3: 'Integrasi CRM',
-      chat_pkg3_f4: 'Dashboard analytics',
-      chat_pkg3_f5: 'Multi-bahasa',
+      chat_pkg3_g1: 'Semua yang ada di Smart Bot',
+      chat_pkg3_g2: 'Intent & flow percakapan tak terbatas',
+      chat_pkg3_g3: 'Knowledge base / RAG dari dokumen Anda',
+      chat_pkg3_g4: 'Integrasi CRM & database',
+      chat_pkg3_g5: 'Dashboard analytics & laporan',
+      chat_pkg3_g6: 'Dukungan multi-bahasa',
+      chat_pkg3_g7: 'Gratis perbaikan bug 3 bulan',
       chat_pkg3_price: 'Mulai Rp 2 Juta',
       chat_pkg3_dur: '2–3 minggu',
       chat_pkg3_rev: '5x revisi',
       mob_pkg1_name: 'Starter',
       mob_pkg1_desc: 'Hingga 3 entitas — aplikasi sederhana dengan layar inti, satu platform (iOS atau Android).',
-      mob_pkg1_f1: 'Hingga 3 entitas',
-      mob_pkg1_f2: '1 platform',
-      mob_pkg1_f3: 'UI dasar',
-      mob_pkg1_f4: 'Penyimpanan lokal',
+      mob_pkg1_g1: 'Aplikasi di 1 platform (iOS atau Android)',
+      mob_pkg1_g2: 'Hingga 3 entitas / model data',
+      mob_pkg1_g3: 'Hingga 5 layar utama',
+      mob_pkg1_g4: 'Penyimpanan data lokal',
+      mob_pkg1_g5: 'Source code & file build',
+      mob_pkg1_g6: 'Gratis perbaikan bug 1 bulan',
       mob_pkg1_price: 'Mulai Rp 1,5 Juta',
       mob_pkg1_dur: '5–7 hari',
       mob_pkg1_rev: '2x revisi',
       mob_pkg2_name: 'Professional',
       mob_pkg2_desc: 'Hingga 10 entitas — iOS + Android dengan auth, push notification, dan backend API.',
-      mob_pkg2_f1: 'Hingga 10 entitas',
-      mob_pkg2_f2: 'iOS + Android',
-      mob_pkg2_f3: 'Auth & profil',
-      mob_pkg2_f4: 'Push notification',
-      mob_pkg2_f5: 'Backend API',
+      mob_pkg2_g1: 'Aplikasi di iOS + Android',
+      mob_pkg2_g2: 'Hingga 10 entitas / model data',
+      mob_pkg2_g3: 'Sistem auth & profil pengguna',
+      mob_pkg2_g4: 'Push notification',
+      mob_pkg2_g5: 'Backend API & database',
+      mob_pkg2_g6: 'Source code & deployment',
+      mob_pkg2_g7: 'Gratis perbaikan bug 2 bulan',
       mob_pkg2_price: 'Mulai Rp 5 Juta',
       mob_pkg2_dur: '2–3 minggu',
       mob_pkg2_rev: '3x revisi',
       mob_pkg3_name: 'Advanced',
       mob_pkg3_desc: '10+ entitas — solusi lengkap dengan fitur real-time, pembayaran, admin panel, dan deploy ke app store.',
-      mob_pkg3_f1: '10+ entitas',
-      mob_pkg3_f2: 'Sinkronisasi real-time',
-      mob_pkg3_f3: 'Integrasi pembayaran',
-      mob_pkg3_f4: 'Admin panel',
-      mob_pkg3_f5: 'Deploy app store',
-      mob_pkg3_f6: 'Analytics',
+      mob_pkg3_g1: 'Semua yang ada di Professional',
+      mob_pkg3_g2: '10+ entitas / model data',
+      mob_pkg3_g3: 'Sinkronisasi real-time & live updates',
+      mob_pkg3_g4: 'Integrasi payment gateway',
+      mob_pkg3_g5: 'Admin panel (berbasis web)',
+      mob_pkg3_g6: 'Deployment ke App Store & Play Store',
+      mob_pkg3_g7: 'Analytics & crash reporting',
+      mob_pkg3_g8: 'Gratis perbaikan bug 3 bulan',
       mob_pkg3_price: 'Mulai Rp 15 Juta',
       mob_pkg3_dur: '4–8 minggu',
       mob_pkg3_rev: '5x revisi',
+      sweb_s1: 'Ringkasan', sweb_s2: 'Stack Frontend', sweb_s3: 'Stack Backend', sweb_s4: 'Keuntungan', sweb_s5: 'Fitur AI',
+      schat_s1: 'Ringkasan', schat_s2: 'Platform', schat_s3: 'Stack AI', schat_s4: 'Keuntungan',
+      smob_s1: 'Ringkasan', smob_s2: 'Stack Teknologi', smob_s3: 'Keuntungan', smob_s4: 'Lanjutan',
       skills_label: 'Keahlian',
       skills_title: 'Tools yang Saya Gunakan',
       skills_desc: 'Teknologi dan tools yang saya pakai untuk mengerjakan proyek.',
